@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Science practice – Water and natural disasters</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fbfcfd;--grid:#dde7f1;--card:#ffffff;--ink:#1c2a3a;--muted:#5a6b7d;--line:#d3dde8;
+  --blue:#1f5fa8;--blue-ink:#ffffff;--hl:#ffe766;--hl-ink:#1c2a3a;
+  --ok:#227a4b;--ok-bg:#e1f3e8;--bad:#b83a28;--bad-bg:#fbe5e0;--chip:#eef3f8;
+  --sky:#eef6fc;--cloud:#c9d3df;--water:#86b9e8;--land:#bcd9a2;--soil:#d6bd93;--mount:#aaa49b;
+  --tree:#4f9d5d;--trunk:#8b5a2b;--sun:#f2b632;--warm:#d4483b;--cool:#2f74d0;--funnel:#8b96a6;
+  --skin:#f3dcc8;--bone:#fffdf6;--brain:#e7a0b4;--lung:#e58585;--kidney:#8e3b3b;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#141a21;--grid:#1f2833;--card:#1b222b;--ink:#e6edf4;--muted:#9fb0c2;--line:#2f3a47;
+    --blue:#6ea6ff;--blue-ink:#0e1520;--hl:#8a7a1e;--hl-ink:#fff8d0;
+    --ok:#6fd49b;--ok-bg:#16352a;--bad:#ff8c76;--bad-bg:#3c1f19;--chip:#232c37;
+    --sky:#18222d;--cloud:#56606e;--water:#2d5d8c;--land:#355133;--soil:#6b5638;--mount:#5a554e;
+    --tree:#4d8c58;--trunk:#7a5230;--funnel:#6f7a8a;--skin:#7c6150;--bone:#e9e4d8;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141a21;--grid:#1f2833;--card:#1b222b;--ink:#e6edf4;--muted:#9fb0c2;--line:#2f3a47;
+  --blue:#6ea6ff;--blue-ink:#0e1520;--hl:#8a7a1e;--hl-ink:#fff8d0;
+  --ok:#6fd49b;--ok-bg:#16352a;--bad:#ff8c76;--bad-bg:#3c1f19;--chip:#232c37;
+  --sky:#18222d;--cloud:#56606e;--water:#2d5d8c;--land:#355133;--soil:#6b5638;--mount:#5a554e;
+  --tree:#4d8c58;--trunk:#7a5230;--funnel:#6f7a8a;--skin:#7c6150;--bone:#e9e4d8;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:2px solid var(--line)}
+.top{max-width:720px;margin:auto;padding:14px 16px 2px}
+h1{font-family:Fredoka,"Atkinson Hyperlegible",system-ui,sans-serif;font-weight:600;font-size:1.45rem;margin:0;letter-spacing:.01em}
+h1 span{background:linear-gradient(transparent 55%,var(--hl) 55%);padding:0 2px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 16px 12px;max-width:720px;margin:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font:600 .92rem Fredoka,system-ui,sans-serif;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 13px;cursor:pointer}
+.tab.on{background:var(--blue);color:var(--blue-ink);border-color:var(--blue)}
+main{max-width:720px;margin:auto;padding:16px 14px 48px}
+.intro{color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
+.qn{font:500 .85rem Fredoka,system-ui,sans-serif;color:var(--blue)}
+.q{font-weight:700;margin:4px 0 12px;white-space:pre-line}
+.opts{display:grid;gap:8px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.opt{text-align:left;padding:11px 13px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.opt:disabled{cursor:default}
+.ok{background:var(--ok-bg)!important;border-color:var(--ok)!important}
+.bad{background:var(--bad-bg)!important;border-color:var(--bad)!important}
+.btn{padding:10px 16px;border-radius:12px;border:none;background:var(--blue);color:var(--blue-ink);font-weight:700}
+.btn.soft{background:var(--chip);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fb:empty{display:none}
+.fb{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:.95rem}
+.fb.okm{background:var(--ok-bg);color:var(--ok)}
+.fb.badm{background:var(--bad-bg);color:var(--bad)}
+.fill{line-height:2.5}
+.fill input{font:inherit;width:7.2em;padding:2px 8px;border:none;border-bottom:3px solid var(--ink);border-radius:4px;background:var(--hl);color:var(--hl-ink)}
+.fix{color:var(--ok);font-weight:700;font-size:.9rem;margin:0 4px;white-space:nowrap}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:10px;border-top:2px dashed var(--line)}
+.chip{padding:5px 11px;border-radius:999px;background:var(--chip);border:1px solid var(--line);color:var(--ink);font-size:.92rem}
+svg.dia{width:100%;height:auto;display:block;background:var(--sky);border-radius:12px;margin-bottom:12px}
+.lrow{display:flex;align-items:center;gap:8px;margin:7px 0;flex-wrap:wrap}
+.badge{width:26px;height:26px;border-radius:50%;background:var(--blue);color:var(--blue-ink);display:grid;place-items:center;font-size:.85rem;font-weight:700;flex:none}
+select{font:inherit;flex:1;min-width:150px;padding:8px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+textarea{width:100%;box-sizing:border-box;min-height:100px;font:inherit;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.model{margin-top:12px;padding:12px;border-left:5px solid var(--hl);background:var(--chip);border-radius:8px}
+.seq{display:flex;flex-direction:column;gap:6px;margin:4px 0 12px}
+.seq div{padding:8px 11px;border-radius:10px;background:var(--chip)}
+.hint{color:var(--muted);font-size:.92rem}
+.scorebar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:0 0 14px}
+.scorebar .row{margin:0}
+.flash{min-height:210px;display:grid;place-items:center;text-align:center;font:600 1.7rem Fredoka,system-ui,sans-serif;cursor:pointer;user-select:none}
+.flash small{display:block;font:400 1rem "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--muted);margin-top:10px}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<marker id="mi" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker>
+<marker id="mw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--warm)"/></marker>
+<marker id="mc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--cool)"/></marker>
+</defs></svg>
+<header>
+  <div class="top"><h1>Science <span>practice</span> 🌍</h1></div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main id="main"></main>
+<script>
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s).toLowerCase().replace(/[^a-z0-9]/g,'');
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const row=(...b)=>{const r=el('div','row');r.append(...b);return r};
+const PRAISE=['Correct! 🎉','Well done! 👏','Great! ⭐','Yes! 💪'];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const B=(n,x,y)=>`<g><circle cx="${x}" cy="${y}" r="11" fill="var(--blue)"/><text x="${x}" y="${y+4.5}" text-anchor="middle" font-size="13" font-weight="700" fill="var(--blue-ink)" font-family="system-ui,sans-serif">${n}</text></g>`;
+
+/* ---------- Diagrams ---------- */
+const SVG={
+tornadoA:`<svg class="dia" viewBox="0 0 340 230" role="img" aria-label="How a tornado starts">
+<g fill="var(--cloud)"><circle cx="60" cy="65" r="22"/><circle cx="85" cy="48" r="28"/><circle cx="112" cy="62" r="22"/><rect x="42" y="58" width="90" height="28" rx="12"/></g>
+<g stroke="var(--warm)" stroke-width="3" marker-end="url(#mw)"><line x1="55" y1="208" x2="55" y2="100"/><line x1="72" y1="208" x2="72" y2="100"/></g>
+<g stroke="var(--cool)" stroke-width="3" marker-end="url(#mc)"><line x1="100" y1="92" x2="100" y2="170"/><line x1="117" y1="92" x2="117" y2="170"/></g>
+<line x1="170" y1="10" x2="170" y2="220" stroke="var(--line)" stroke-width="2" stroke-dasharray="5 5"/>
+<g fill="var(--cloud)"><circle cx="225" cy="97" r="24"/><circle cx="255" cy="78" r="30"/><circle cx="285" cy="97" r="24"/><rect x="203" y="90" width="104" height="30" rx="14"/></g>
+<g fill="none" stroke="var(--ink)" stroke-width="2"><circle cx="235" cy="102" r="8"/><circle cx="255" cy="102" r="8"/><circle cx="275" cy="102" r="8"/></g>
+<line x1="325" y1="25" x2="195" y2="25" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#mi)"/>
+<line x1="195" y1="165" x2="325" y2="165" stroke="var(--ink)" stroke-width="2.5" marker-end="url(#mi)"/>
+<line x1="306" y1="134" x2="283" y2="108" stroke="var(--muted)" stroke-width="1.5"/>
+${B(1,85,58)}${B(2,36,198)}${B(3,140,182)}${B(4,255,25)}${B(5,255,165)}${B(6,312,140)}
+</svg>`,
+tornadoB:`<svg class="dia" viewBox="0 0 320 240" role="img" aria-label="A tornado touching the ground">
+<g fill="var(--cloud)"><circle cx="125" cy="55" r="26"/><circle cx="165" cy="38" r="32"/><circle cx="205" cy="55" r="26"/><rect x="103" y="50" width="124" height="30" rx="14"/></g>
+<path d="M140 78 L192 78 L171 205 L161 205 Z" fill="var(--funnel)"/>
+<path d="M150 92 L182 102 L152 118 L178 130 L156 146 L174 158 L160 176 L169 190" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
+<line x1="20" y1="205" x2="300" y2="205" stroke="var(--soil)" stroke-width="4"/>
+<circle cx="166" cy="205" r="6" fill="var(--ink)"/>
+<line x1="118" y1="200" x2="118" y2="108" stroke="var(--warm)" stroke-width="3" marker-end="url(#mw)"/>
+<line x1="222" y1="130" x2="184" y2="130" stroke="var(--muted)" stroke-width="1.5"/>
+<line x1="208" y1="220" x2="173" y2="208" stroke="var(--muted)" stroke-width="1.5"/>
+${B(1,165,48)}${B(2,232,130)}${B(3,98,155)}${B(4,218,224)}
+</svg>`,
+water:`<svg class="dia" viewBox="0 0 340 270" role="img" aria-label="The water cycle">
+<rect x="0" y="160" width="340" height="47" fill="var(--land)"/>
+<polygon points="115,172 178,88 240,172" fill="var(--mount)"/><polygon points="164,106 178,88 192,106 184,102 178,108 171,102" fill="var(--bone)"/>
+<ellipse cx="150" cy="186" rx="88" ry="17" fill="var(--water)"/>
+<rect x="0" y="207" width="340" height="27" fill="var(--soil)"/>
+<rect x="0" y="234" width="340" height="36" fill="var(--water)" opacity=".75"/>
+<text x="8" y="262" font-size="11" fill="var(--ink)" font-family="system-ui,sans-serif">Groundwater</text>
+<g fill="var(--sun)"><circle cx="42" cy="38" r="17"/></g>
+<g stroke="var(--sun)" stroke-width="2.5"><line x1="42" y1="12" x2="42" y2="4"/><line x1="42" y1="64" x2="42" y2="72"/><line x1="16" y1="38" x2="8" y2="38"/><line x1="68" y1="38" x2="76" y2="38"/><line x1="24" y1="20" x2="18" y2="14"/><line x1="60" y1="56" x2="66" y2="62"/><line x1="60" y1="20" x2="66" y2="14"/><line x1="24" y1="56" x2="18" y2="62"/></g>
+<g fill="var(--cloud)"><circle cx="255" cy="52" r="20"/><circle cx="280" cy="38" r="25"/><circle cx="305" cy="52" r="19"/><rect x="238" y="48" width="84" height="24" rx="12"/></g>
+<rect x="37" y="138" width="7" height="26" fill="var(--trunk)"/><circle cx="40" cy="128" r="17" fill="var(--tree)"/>
+<rect x="292" y="150" width="7" height="26" fill="var(--trunk)"/><circle cx="295" cy="140" r="17" fill="var(--tree)"/>
+<g stroke="var(--ink)" stroke-width="2" fill="none" marker-end="url(#mi)">
+<line x1="135" y1="180" x2="135" y2="135"/><line x1="150" y1="180" x2="150" y2="128"/><line x1="165" y1="180" x2="165" y2="135"/>
+<line x1="48" y1="108" x2="70" y2="72"/>
+<path d="M82 62 Q160 6 232 38"/>
+<line x1="272" y1="82" x2="282" y2="125"/>
+<line x1="280" y1="178" x2="244" y2="183"/>
+<line x1="312" y1="180" x2="312" y2="226"/>
+<line x1="300" y1="246" x2="95" y2="246"/>
+</g>
+<g fill="var(--cool)"><ellipse cx="258" cy="86" rx="2" ry="3.5"/><ellipse cx="292" cy="90" rx="2" ry="3.5"/><ellipse cx="268" cy="104" rx="2" ry="3.5"/><ellipse cx="298" cy="110" rx="2" ry="3.5"/></g>
+<text x="218" y="200" font-size="11" fill="var(--ink)" font-family="system-ui,sans-serif">Run off</text>
+${B(1,186,140)}${B(2,80,98)}${B(3,158,28)}${B(4,318,112)}${B(5,326,205)}${B(6,200,246)}
+</svg>`,
+body:`<svg class="dia" viewBox="0 0 260 300" role="img" aria-label="The human body">
+<rect x="112" y="68" width="16" height="16" fill="var(--skin)"/>
+<circle cx="120" cy="44" r="30" fill="var(--skin)"/>
+<ellipse cx="120" cy="36" rx="20" ry="13" fill="var(--brain)"/>
+<rect x="56" y="88" width="18" height="104" rx="9" fill="var(--skin)"/><rect x="166" y="88" width="18" height="104" rx="9" fill="var(--skin)"/>
+<rect x="78" y="80" width="84" height="122" rx="22" fill="var(--skin)"/>
+<rect x="88" y="192" width="26" height="96" rx="11" fill="var(--skin)"/><rect x="126" y="192" width="26" height="96" rx="11" fill="var(--skin)"/>
+<ellipse cx="104" cy="118" rx="13" ry="23" fill="var(--lung)"/><ellipse cx="136" cy="118" rx="13" ry="23" fill="var(--lung)"/>
+<ellipse cx="107" cy="168" rx="7" ry="11" fill="var(--kidney)"/><ellipse cx="133" cy="168" rx="7" ry="11" fill="var(--kidney)"/>
+<path d="M172 94 L176 140 L173 186" fill="none" stroke="var(--warm)" stroke-width="3"/>
+<path d="M60 96 L63 140 L61 186" fill="none" stroke="var(--warm)" stroke-width="3"/>
+<g stroke="var(--muted)" stroke-width="1"><rect x="98" y="206" width="6" height="68" rx="3" fill="var(--bone)"/><circle cx="98" cy="206" r="4" fill="var(--bone)"/><circle cx="104" cy="206" r="4" fill="var(--bone)"/><circle cx="98" cy="274" r="4" fill="var(--bone)"/><circle cx="104" cy="274" r="4" fill="var(--bone)"/></g>
+<g stroke="var(--muted)" stroke-width="1.5"><line x1="218" y1="30" x2="138" y2="34"/><line x1="30" y1="112" x2="92" y2="116"/><line x1="226" y1="140" x2="178" y2="140"/><line x1="30" y1="168" x2="100" y2="168"/><line x1="36" y1="246" x2="96" y2="246"/></g>
+${B(1,228,30)}${B(2,22,112)}${B(3,236,140)}${B(4,22,168)}${B(5,26,246)}
+</svg>`
+};
+
+/* ---------- Content ---------- */
+const DIS=[
+['drought','A long period of time where there is no rain. This causes a shortage of water for people, animals and crops.'],
+['flood','When an area or land that is usually dry becomes submerged in water. Excessive rain or a burst river or lake can cause it.'],
+['hurricane','A huge storm that forms over warm seas and oceans with wind speeds of at least 74 miles per hour.'],
+['tornado','A strong, dangerous rotating column of air that is in contact with the surface of the Earth below it and a cloud above it.'],
+['tsunami','A series of huge waves caused by an earthquake or volcano under the ocean.'],
+['earthquake','An intense shaking of the Earth’s surface caused by movements happening below the crust.'],
+['avalanche','When a mass of snow, ice and rocks falls quickly down a mountainside.'],
+['heat wave','A period of excessively hot weather. It can have devastating effects on crops, animals and people.']
+];
+const HLBANK=['shortage','dry','huge','surface','crops'];
+const WCBANK=['heats','vapour','vapour','rises','droplets','clouds','clouds','rain','snow','hail','collects','oceans','absorbs','plants','air'];
+
+const SECTIONS=[
+{id:'dis',tab:'🌋 Disasters',intro:'Natural disasters: read the description and find the right word.',items:[
+ ...DIS.map(([w,d])=>({t:'mc',q:'Which natural disaster is this?\n“'+d+'”',opts:[w,...shuffle(DIS.filter(x=>x[0]!==w).map(x=>x[0])).slice(0,3)],a:0})),
+ {t:'fill',prompt:'Fill in the highlighted word.',q:'Drought: a long period of time where there is no rain. This causes a ___ of water for people, animals and crops.',a:[['shortage']],bank:HLBANK},
+ {t:'fill',prompt:'Fill in the highlighted word.',q:'Flood: when an area or land that is usually ___ becomes submerged in water.',a:[['dry']],bank:HLBANK},
+ {t:'fill',prompt:'Fill in the highlighted word.',q:'Hurricane: a ___ storm that forms over warm seas and oceans.',a:[['huge']],bank:HLBANK},
+ {t:'fill',prompt:'Fill in the highlighted word.',q:'Tornado: a rotating column of air in contact with the ___ of the Earth below it and a cloud above it.',a:[['surface']],bank:HLBANK},
+ {t:'fill',prompt:'Fill in the highlighted word.',q:'Heat wave: it can have devastating effects on ___, animals and people.',a:[['crops']],bank:HLBANK},
+ {t:'mc',q:'A hurricane has wind speeds of at least…',opts:['74 miles per hour','47 miles per hour','24 miles per hour','100 miles per hour'],a:0},
+ {t:'tf',q:'A hurricane forms over warm seas and oceans.',a:true},
+ {t:'tf',q:'A tsunami is caused by very heavy rain.',a:false,ex:'A tsunami is caused by an earthquake or a volcano under the ocean.'},
+ {t:'tf',q:'An earthquake is caused by movements happening above the crust.',a:false,ex:'The movements happen BELOW the crust.'},
+ {t:'tf',q:'A flood can be caused by a burst river or lake.',a:true},
+ {t:'fill',prompt:'Spelling: write the name of the disaster.',q:'When a mass of snow, ice and rocks falls quickly down a mountainside: ___',a:[['avalanche']],ex:'Careful with the spelling: avalanch<b>e</b> ends with E.'},
+ {t:'fill',prompt:'Spelling: write the name of the disaster.',q:'An intense shaking of the Earth’s surface: ___',a:[['earthquake']]},
+ {t:'fill',prompt:'Spelling: write the name of the disaster.',q:'A long period of time with no rain: ___',a:[['drought']],ex:'Drought: D-R-O-U-G-H-T.'},
+ {t:'open',q:'What is the difference between a hurricane and a tornado?',model:'A hurricane is a huge storm that forms over warm seas and oceans, with wind speeds of at least 74 miles per hour. A tornado is a strong, dangerous rotating column of air that touches the surface of the Earth below and a cloud above.',keys:['hurricane: over warm seas','74 mph','tornado: rotating column of air','touches the ground and a cloud']}
+]},
+{id:'tor',tab:'🌪️ Tornadoes',intro:'How tornadoes form: look at the pictures and remember the steps.',items:[
+ {t:'label',q:'Label the picture: how a tornado starts.',svg:'tornadoA',a:['storm cloud','warm moist air','cool dry air','fast wind','slow wind','rotating column of air'],ex:'Warm moist air goes up, cool dry air comes down. Fast wind above and slow wind below make the air spin.'},
+ {t:'label',q:'Label the picture: the tornado touches the ground.',svg:'tornadoB',a:['storm cloud','funnel cloud','upwards current','the eye touches the ground']},
+ {t:'mc',q:'What kind of atmosphere do we need for a tornado?',opts:['unstable','stable','calm','frozen'],a:0,ex:'Spelling: UN-stable (not “anstable”).'},
+ {t:'tf',q:'Warm moist air goes up towards the storm cloud.',a:true},
+ {t:'tf',q:'Cool dry air goes up from the ground.',a:false,ex:'Cool dry air comes DOWN from the cloud.'},
+ {t:'mc',q:'Where is the wind faster?',opts:['at the top','at the bottom','it is the same'],a:0,keep:true,ex:'Fast wind above and slow wind below make the air roll and spin.'},
+ {t:'fill',q:'A tornado is a rotating ___ of air.',a:[['column']]},
+ {t:'mc',q:'What is the funnel cloud?',opts:['the rotating column of air coming out of the cloud','a rain cloud','a cloud of snow','the wind at the top'],a:0},
+ {t:'order',q:'Put the steps in the right order.',a:['Unstable atmosphere: warm moist air goes up, cool dry air comes down','Fast wind above and slow wind below make the air rotate','The rotating column of air moves vertically','The column comes out of the cloud: a funnel cloud','The eye of the tornado touches the ground']},
+ {t:'open',q:'Explain in your own words how a tornado forms.',model:'In an unstable atmosphere, warm moist air goes up and cool dry air comes down. Fast wind above and slow wind below make the air rotate. The rotating column of air moves vertically and comes out of the storm cloud as a funnel cloud. When it touches the ground, it is a tornado.',keys:['warm moist air up','cool dry air down','fast and slow wind','rotating column','funnel cloud','touches the ground']}
+]},
+{id:'wat',tab:'💧 Water cycle',intro:'The water cycle: label the stages and complete the sentences.',items:[
+ {t:'label',q:'Label the water cycle.',svg:'water',a:['evaporation','transpiration','condensation','precipitation','infiltration','collection']},
+ {t:'fill',prompt:'Evaporation',q:'When the sun ___ water, it changes into water ___ and ___ into the air.',a:[['heats'],['vapour','vapor'],['rises','goes up']],bank:WCBANK},
+ {t:'fill',prompt:'Transpiration',q:'___ release water ___ from their leaves into the ___.',a:[['plants','trees'],['vapour','vapor'],['air']],bank:WCBANK},
+ {t:'fill',prompt:'Condensation',q:'When water ___ cools down in the air, it changes back into tiny ___ and forms ___.',a:[['vapour','vapor'],['droplets'],['clouds']],bank:WCBANK},
+ {t:'fill',prompt:'Precipitation',q:'When ___ become very heavy, water falls to the Earth as ___, ___ or ___.',a:[['clouds']],setFrom:1,set:['rain','snow','hail','sleet'],setHint:'rain, snow, hail or sleet',bank:WCBANK},
+ {t:'fill',prompt:'Collection',q:'Water ___ in rivers, lakes and ___ and some ___ into the ground.',a:[['collects'],['oceans','seas'],['absorbs']],bank:WCBANK},
+ {t:'order',q:'Put the stages of the water cycle in order.',a:['Evaporation','Transpiration','Condensation','Precipitation','Collection']},
+ {t:'mc',q:'What is infiltration?',opts:['water goes into the ground','water falls from the clouds','water turns into vapour','plants release water'],a:0},
+ {t:'mc',q:'What is transpiration?',opts:['plants release water vapour from their leaves','water vapour cools down','water collects in the oceans','the sun heats the clouds'],a:0},
+ {t:'mc',q:'Which one is NOT a type of precipitation?',opts:['vapour','rain','hail','sleet'],a:0},
+ {t:'mc',q:'Water under the ground is called…',opts:['groundwater','run off','sleet','droplets'],a:0},
+ {t:'tf',q:'Condensation: water vapour cools down and changes into tiny droplets.',a:true},
+ {t:'tf',q:'Evaporation happens when water cools down.',a:false,ex:'Evaporation happens when the sun HEATS the water.'},
+ {t:'open',q:'What is the difference between evaporation and condensation?',model:'Evaporation: the sun heats water, it changes into water vapour and rises into the air. Condensation: water vapour cools down and changes back into tiny droplets that form clouds.',keys:['evaporation = heats, vapour, rises','condensation = cools down, droplets, clouds']}
+]},
+{id:'bod',tab:'🫀 Water in our body',intro:'We need water: parts of the body, numbers and percentages.',items:[
+ {t:'label',q:'Label the body.',svg:'body',a:['brain','lungs','blood','kidneys','bones']},
+ {t:'fill',prompt:'Write the numbers: 4, 3, 70, 8.',q:'About ___% of our body is water.',a:[['70']],bank:['4','3','70','8']},
+ {t:'fill',prompt:'Write the numbers: 4, 3, 70, 8.',q:'We can live for ___ weeks without food.',a:[['4','four']],bank:['4','3','70','8']},
+ {t:'fill',prompt:'Write the numbers: 4, 3, 70, 8.',q:'We can’t live for more than ___ days without water.',a:[['3','three']],bank:['4','3','70','8']},
+ {t:'fill',prompt:'Write the numbers: 4, 3, 70, 8.',q:'We need to drink ___ glasses of water every day.',a:[['8','eight']],bank:['4','3','70','8']},
+ {t:'fill',prompt:'Write brain, bones or blood.',q:'85% of our ___ is water.',a:[['brain']],bank:['brain','bones','blood']},
+ {t:'fill',prompt:'Write brain, bones or blood.',q:'Our ___ takes food to different parts of the body.',a:[['blood']],bank:['brain','bones','blood']},
+ {t:'fill',prompt:'Write brain, bones or blood.',q:'33% of our ___ is water.',a:[['bones']],bank:['brain','bones','blood']},
+ {t:'fill',prompt:'Write brain, bones or blood.',q:'If we’re dehydrated, our ___ doesn’t work.',a:[['brain']],bank:['brain','bones','blood']},
+ {t:'mc',q:'How much of our body is water?',opts:['About 70%','Three days','Oxygen and food','We get dehydrated'],a:0},
+ {t:'mc',q:'What does blood take to different parts of the body?',opts:['Oxygen and food','About 70%','Three days','We get dehydrated'],a:0},
+ {t:'mc',q:'How long can we live without water?',opts:['Three days','About 70%','Oxygen and food','We get dehydrated'],a:0},
+ {t:'mc',q:'What happens if we don’t drink water?',opts:['We get dehydrated','Three days','About 70%','Oxygen and food'],a:0},
+ {t:'fill',prompt:'Water in our body at different ages (from your notes).',q:'0–5 years: ___%\n5–20 years: ___%\n20–35 years: ___%\n35–50 years: ___%\n50–80 years: ___%',a:[['94'],['77'],['59'],['55'],['50']],bank:['94','77','59','55','50']},
+ {t:'mc',q:'Who has the highest percentage of water in their body?',opts:['young children','adults (20–35 years)','older people (50–80 years)'],a:0,keep:true},
+ {t:'tf',q:'As we get older, the percentage of water in our body goes down.',a:true},
+ {t:'mc',q:'What does “dehydrated” mean?',opts:['without enough water in the body','with too much water in the body','very tired after sport','very cold'],a:0},
+ {t:'open',q:'Why do children have more water in their bodies than adults?',model:'Children have more water in their bodies because they have less fat and muscle mass than adults, and a higher percentage of fluid-rich tissues, which are necessary for growth.',keys:['less fat and muscle','fluid-rich tissues','necessary for growth']}
+]}
+];
+
+const VOCAB=[
+['drought','siccità','no rain for a long time'],['flood','alluvione, inondazione','dry land covered by water'],['hurricane','uragano','huge storm over warm seas'],
+['tornado','tornado','rotating column of air'],['tsunami','tsunami, maremoto','huge waves after an earthquake under the ocean'],['earthquake','terremoto','shaking of the Earth’s surface'],
+['avalanche','valanga','snow, ice and rocks fall down a mountain'],['heat wave','ondata di calore','very hot weather'],['shortage','scarsità, mancanza',''],
+['crops','raccolti, coltivazioni',''],['surface','superficie',''],['crust','crosta terrestre',''],['submerged','sommerso',''],['unstable','instabile',''],
+['moist','umido',''],['funnel cloud','nube a imbuto',''],['column','colonna',''],
+['evaporation','evaporazione','the sun heats water, it becomes vapour'],['transpiration','traspirazione','plants release vapour from leaves'],
+['condensation','condensazione','vapour cools down and becomes droplets'],['precipitation','precipitazione','rain, snow, hail, sleet'],
+['collection','raccolta','water collects in rivers, lakes, oceans'],['infiltration','infiltrazione','water goes into the ground'],
+['groundwater','acque sotterranee',''],['run off','ruscellamento (acqua che scorre sul terreno)',''],['water vapour','vapore acqueo',''],
+['droplets','goccioline',''],['hail','grandine',''],['sleet','nevischio',''],['heavy','pesante',''],['rises','sale',''],['absorbs','assorbe',''],
+['brain','cervello',''],['bones','ossa',''],['lungs','polmoni',''],['kidneys','reni',''],['blood','sangue',''],
+['dehydrated','disidratato','without enough water'],['growth','crescita',''],['tissues','tessuti',''],['fat','grasso','']
+].map(([en,it,hint])=>({en,it,hint}));
+
+/* ---------- Rendering ---------- */
+const TYPE={mc:'Choose',tf:'True or false',fill:'Fill in',label:'Label the picture',order:'Put in order',open:'Open question'};
+
+function renderItem(it,n,record){
+  const c=el('div','card');
+  c.append(el('div','qn',`${n}. ${TYPE[it.t]}`));
+  const fb=el('div','fb');
+  const q=t=>c.append(el('div','q',t));
+  const done=(ok,msg)=>{fb.className='fb '+(ok?'okm':'badm');fb.innerHTML=(ok?'✅ ':'❌ ')+(msg||(ok?pick(PRAISE):'Not quite.'));record(ok)};
+
+  if(it.t==='mc'||it.t==='tf'){
+    const opts=it.t==='tf'?['True','False']:(it.keep?it.opts:shuffle(it.opts));
+    const ans=it.t==='tf'?(it.a?'True':'False'):it.opts[it.a];
+    q(it.q);const box=el('div','opts');
+    opts.forEach(o=>{const b=el('button','opt');b.textContent=o;b.onclick=()=>{
+      [...box.children].forEach(x=>{x.disabled=true;if(x.textContent===ans)x.classList.add('ok')});
+      const ok=o===ans;if(!ok)b.classList.add('bad');
+      done(ok,(ok?pick(PRAISE)+' ':'The answer is: <b>'+ans+'</b>. ')+(it.ex||''));
+    };box.append(b)});
+    c.append(box);
+  }
+
+  if(it.t==='fill'){
+    q(it.prompt||'Fill in the gaps.');
+    const p=el('div','fill');const ins=[];let last=null;
+    it.q.split('\n').forEach((line,li)=>{
+      if(li)p.append(document.createElement('br'));
+      const parts=line.split('___');
+      parts.forEach((t,i)=>{p.append(document.createTextNode(t));if(i<parts.length-1){const x=document.createElement('input');x.setAttribute('autocapitalize','off');x.autocomplete='off';x.spellcheck=false;x.onfocus=()=>{last=x};ins.push(x);p.append(x)}});
+    });
+    c.append(p);
+    if(it.bank){const bk=el('div','bank');shuffle(it.bank).forEach(w=>{const ch=el('button','chip');ch.textContent=w;ch.onclick=()=>{
+      const t=(last&&!last.value&&!last.disabled)?last:ins.find(x=>!x.value&&!x.disabled);
+      if(t){t.value=w;last=ins.find(x=>!x.value)||null}
+    };bk.append(ch)});c.append(bk)}
+    const chk=el('button','btn','Check');
+    chk.onclick=()=>{
+      let all=true;const pool=it.set?it.set.slice():null;
+      ins.forEach((x,i)=>{
+        const v=norm(x.value);let ok,right;
+        if(it.setFrom!=null&&i>=it.setFrom){const k=pool.findIndex(s=>norm(s)===v);ok=v&&k>=0;if(ok)pool.splice(k,1);right=it.setHint}
+        else{ok=it.a[i].some(s=>norm(s)===v);right=it.a[i][0]}
+        x.disabled=true;x.classList.add(ok?'ok':'bad');
+        if(!ok){all=false;x.insertAdjacentHTML('afterend',`<span class="fix">→ ${right}</span>`)}
+      });
+      chk.remove();done(all,all?pick(PRAISE)+(it.ex?' '+it.ex:''):'Look at the green words. '+(it.ex||''));
+    };
+    c.append(row(chk));
+  }
+
+  if(it.t==='label'){
+    q(it.q);c.insertAdjacentHTML('beforeend',SVG[it.svg]);
+    const sels=it.a.map((ans,i)=>{
+      const r=el('div','lrow');r.append(el('span','badge',String(i+1)));
+      const s=document.createElement('select');s.setAttribute('aria-label','Label '+(i+1));
+      s.innerHTML='<option value="">choose…</option>'+shuffle(it.a).map(o=>`<option>${o}</option>`).join('');
+      r.append(s);c.append(r);return s});
+    const chk=el('button','btn','Check');
+    chk.onclick=()=>{let all=true;sels.forEach((s,i)=>{const ok=s.value===it.a[i];s.disabled=true;s.classList.add(ok?'ok':'bad');if(!ok){all=false;s.insertAdjacentHTML('afterend',`<span class="fix">→ ${it.a[i]}</span>`)}});chk.remove();done(all,all?pick(PRAISE)+(it.ex?' '+it.ex:''):(it.ex||'Look at the green labels.'))};
+    c.append(row(chk));
+  }
+
+  if(it.t==='order'){
+    q(it.q);const seq=el('div','seq'),pool=el('div','opts'),picked=[];
+    const draw=()=>{seq.innerHTML=picked.length?picked.map((s,i)=>`<div><b>${i+1}.</b> ${s}</div>`).join(''):'<span class="hint">Tap the steps below in the right order.</span>'};
+    shuffle(it.a).forEach(s=>{const b=el('button','opt');b.textContent=s;b.onclick=()=>{picked.push(s);b.style.display='none';draw()};pool.append(b)});
+    const undo=el('button','btn soft','↶ Undo');undo.onclick=()=>{const s=picked.pop();if(s){[...pool.children].find(b=>b.textContent===s).style.display='';draw()}};
+    const chk=el('button','btn','Check');
+    chk.onclick=()=>{
+      if(picked.length<it.a.length){fb.className='fb badm';fb.textContent='Put all the steps in order first.';return}
+      const ok=picked.every((s,i)=>s===it.a[i]);
+      seq.innerHTML=picked.map((s,i)=>`<div class="${s===it.a[i]?'ok':'bad'}"><b>${i+1}.</b> ${s}</div>`).join('');
+      undo.remove();chk.remove();
+      done(ok,ok?pick(PRAISE):'The right order is:<br>'+it.a.map((s,i)=>`${i+1}. ${s}`).join('<br>'));
+    };
+    draw();c.append(seq,pool,row(undo,chk));
+  }
+
+  if(it.t==='open'){
+    q(it.q);const ta=document.createElement('textarea');ta.placeholder='Write your answer in English…';c.append(ta);
+    const show=el('button','btn','Show the model answer');c.append(row(show));
+    show.onclick=()=>{
+      show.parentNode.remove();
+      c.insertBefore(el('div','model','<b>Model answer</b><br>'+it.model+(it.keys?'<br><br><b>Key ideas:</b> '+it.keys.join('; '):'')),fb);
+      const y=el('button','btn','✓ I had the key ideas'),nn=el('button','btn soft','✗ Not yet');const r2=row(y,nn);c.insertBefore(r2,fb);
+      y.onclick=()=>{r2.remove();done(true,'Great job!')};
+      nn.onclick=()=>{r2.remove();done(false,'Read the model answer again and try to say it out loud.')};
+    };
+  }
+  c.append(fb);return c;
+}
+
+function practice(m,intro,items,restart){
+  m.innerHTML='';m.append(el('p','intro',intro));
+  const res={};const bars=[];
+  const mkBar=()=>{
+    const b=el('div','scorebar',`<div class="sc"></div><div class="row"><button class="btn soft rs">↻ Start again</button><button class="btn rt">Retry mistakes</button></div>`);
+    const upd=()=>{
+      const v=Object.values(res),ok=v.filter(Boolean).length,wrong=v.length-ok,left=items.length-v.length;
+      b.querySelector('.sc').innerHTML=`✅ <b>${ok}</b> &nbsp; ❌ <b>${wrong}</b> &nbsp; ${left?left+' to do':(wrong?'Finished!':'All correct! 🎉')}`;
+      b.querySelector('.rt').disabled=!wrong;
+    };
+    b.querySelector('.rs').onclick=()=>{restart();scrollTo(0,0)};
+    b.querySelector('.rt').onclick=()=>{const w=items.filter(it=>res[it.uid]===false);practice(m,'Let’s try your mistakes again 💪',w,restart);scrollTo(0,0)};
+    bars.push(upd);upd();return b;
+  };
+  m.append(mkBar());
+  items.forEach((it,i)=>m.append(renderItem(it,i+1,ok=>{res[it.uid]=ok;bars.forEach(f=>f())})));
+  m.append(mkBar());
+}
+
+function renderFlash(m){
+  let dir='en',deck=shuffle(VOCAB),known=0,flipped=false;
+  m.innerHTML=`<p class="intro">Vocabulary cards. Tap the card to see the translation.</p>
+  <div class="row" style="margin:0 0 12px"><button class="btn soft" id="dir"></button><button class="btn soft" id="fr">↻ Shuffle</button></div>
+  <div class="card flash" id="fc" role="button" tabindex="0"></div>
+  <div class="row"><button class="btn soft" id="ag">↻ Again later</button><button class="btn" id="kn">✓ I know it</button></div>
+  <p class="intro" id="fcount" style="margin-top:12px"></p>`;
+  const draw=()=>{
+    $('#dir').textContent=dir==='en'?'English → Italiano':'Italiano → English';
+    if(!deck.length){$('#fc').innerHTML='🎉 All done!<small>Tap Shuffle to start again</small>';$('#fcount').textContent='';return}
+    const w=deck[0],front=dir==='en'?w.en:w.it,back=dir==='en'?w.it:w.en;
+    $('#fc').innerHTML=flipped?`<div>${back}<small>${w.hint||'&nbsp;'}</small></div>`:`<div>${front}<small>tap to flip</small></div>`;
+    $('#fcount').textContent=`${deck.length} cards left, ${known} known`;
+  };
+  const flip=()=>{flipped=!flipped;draw()};
+  $('#fc').onclick=flip;$('#fc').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
+  $('#kn').onclick=()=>{if(!deck.length)return;deck.shift();known++;flipped=false;draw()};
+  $('#ag').onclick=()=>{if(!deck.length)return;deck.push(deck.shift());flipped=false;draw()};
+  $('#dir').onclick=()=>{dir=dir==='en'?'it':'en';flipped=false;draw()};
+  $('#fr').onclick=()=>{deck=shuffle(VOCAB);known=0;flipped=false;draw()};
+  draw();
+}
+
+function renderMix(m){
+  const all=SECTIONS.flatMap(s=>s.items.map((it,i)=>({...it,uid:s.id+i}))).filter(it=>it.t!=='open');
+  practice(m,'Mixed test: 12 random questions from all the topics. 🎯',shuffle(all).slice(0,12),()=>renderMix(m));
+}
+
+const TABS=[...SECTIONS.map(s=>({id:s.id,label:s.tab})),{id:'mix',label:'🎯 Mixed test'},{id:'flash',label:'🃏 Vocabulary'}];
+function go(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.id===id));
+  const m=$('#main');
+  if(id==='flash')return renderFlash(m);
+  if(id==='mix')return renderMix(m);
+  const s=SECTIONS.find(x=>x.id===id);
+  practice(m,s.intro,s.items.map((it,i)=>({...it,uid:id+i})),()=>go(id));
+}
+TABS.forEach(t=>{const b=el('button','tab');b.textContent=t.label;b.dataset.id=t.id;b.onclick=()=>{go(t.id);scrollTo(0,0)};$('#tabs').append(b)});
+go('dis');
+</script>
+</body>
+</html>
