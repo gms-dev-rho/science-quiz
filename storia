@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Storia – Ripasso per la verifica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f1e4;--card:#fffdf8;--ink:#2a1f1a;--muted:#6e5d52;--line:#e2d6c2;
+  --acc:#6b2d5c;--acc-ink:#ffffff;--gold:#e08a1e;--hl:#fde68a;--hl-ink:#2a1f1a;
+  --ok:#2f7a4a;--ok-bg:#e2f2e6;--bad:#b23a2a;--bad-bg:#fbe4de;--chip:#f1e8d8;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#1a1512;--card:#241d18;--ink:#f1e8dc;--muted:#b6a593;--line:#3a3028;
+    --acc:#d48bc4;--acc-ink:#1a1512;--gold:#f0a540;--hl:#7a6420;--hl-ink:#fff6d6;
+    --ok:#74d39a;--ok-bg:#183424;--bad:#ff907a;--bad-bg:#3d1f18;--chip:#2e261f;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1a1512;--card:#241d18;--ink:#f1e8dc;--muted:#b6a593;--line:#3a3028;
+  --acc:#d48bc4;--acc-ink:#1a1512;--gold:#f0a540;--hl:#7a6420;--hl-ink:#fff6d6;
+  --ok:#74d39a;--ok-bg:#183424;--bad:#ff907a;--bad-bg:#3d1f18;--chip:#2e261f;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:3px solid var(--acc)}
+.top{max-width:720px;margin:auto;padding:14px 16px 2px;display:flex;align-items:baseline;gap:10px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:1.5rem;margin:0;color:var(--acc)}
+.top small{color:var(--muted)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 16px 12px;max-width:720px;margin:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font:700 .9rem "Atkinson Hyperlegible",system-ui,sans-serif;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 13px;cursor:pointer}
+.tab.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+main{max-width:720px;margin:auto;padding:16px 14px 48px}
+.intro{color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px;position:relative}
+.qn{display:inline-block;font:700 .78rem "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--acc-ink);background:var(--gold);border-radius:6px;padding:1px 8px;letter-spacing:.02em}
+.q{font-weight:700;margin:8px 0 12px;white-space:pre-line}
+.opts{display:grid;gap:8px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.opt{text-align:left;padding:11px 13px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.opt:disabled{cursor:default}
+.ok{background:var(--ok-bg)!important;border-color:var(--ok)!important}
+.bad{background:var(--bad-bg)!important;border-color:var(--bad)!important}
+.btn{padding:10px 16px;border-radius:12px;border:none;background:var(--acc);color:var(--acc-ink);font-weight:700}
+.btn.soft{background:var(--chip);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fb:empty{display:none}
+.fb{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:.95rem}
+.fb.okm{background:var(--ok-bg);color:var(--ok)}
+.fb.badm{background:var(--bad-bg);color:var(--bad)}
+.fill{line-height:2.5}
+.fill input{font:inherit;width:7.5em;padding:2px 8px;border:none;border-bottom:3px solid var(--ink);border-radius:4px;background:var(--hl);color:var(--hl-ink)}
+.fix{color:var(--ok);font-weight:700;font-size:.9rem;margin:0 4px;white-space:nowrap}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:10px;border-top:2px dashed var(--line)}
+.chip{padding:5px 11px;border-radius:999px;background:var(--chip);border:1px solid var(--line);color:var(--ink);font-size:.92rem}
+.mrow{display:grid;gap:6px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.mrow:last-of-type{border-bottom:none}
+.mrow b{color:var(--acc)}
+select{font:inherit;width:100%;padding:8px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+textarea{width:100%;box-sizing:border-box;min-height:100px;font:inherit;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.model{margin-top:12px;padding:12px;border-left:5px solid var(--gold);background:var(--chip);border-radius:8px}
+.seq{display:flex;flex-direction:column;gap:6px;margin:4px 0 12px}
+.seq div{padding:8px 11px;border-radius:10px;background:var(--chip)}
+.hint{color:var(--muted);font-size:.92rem}
+.scorebar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:0 0 14px}
+.scorebar .row{margin:0}
+.flash{min-height:210px;display:grid;place-items:center;text-align:center;font:700 1.6rem Fraunces,Georgia,serif;cursor:pointer;user-select:none}
+.flash small{display:block;font:400 1rem "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--muted);margin-top:10px}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Storia 📜</h1><small>ripasso per la verifica</small></div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main id="main"></main>
+<script>
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const row=(...b)=>{const r=el('div','row');r.append(...b);return r};
+const PRAISE=['Giusto! 🎉','Bravissima! 👏','Esatto! ⭐','Perfetto! 💪'];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* helper per scrivere le domande */
+const mc=(q,giusta,sbagliate,ex)=>({t:'mc',q,opts:[giusta,...sbagliate],a:0,ex});
+const tf=(q,a,ex)=>({t:'tf',q,a,ex});
+const fi=(q,a,ex,bank)=>({t:'fill',q,a,ex,bank});
+const op=(q,model,keys)=>({t:'open',q,model,keys});
+const ma=(q,pairs)=>({t:'match',q,pairs});
+const or=(q,a,ex)=>({t:'order',q,a,ex});
+
+/* ---------- CONTENUTI ---------- */
+const SECTIONS=[
+{id:'cad',tab:'🏛️ Caduta di Roma',intro:'La caduta dell’Impero romano d’Occidente (pagine 31-33).',items:[
+ fi('Dopo la morte di Teodosio, nel ___, l’Impero d’Occidente e l’Impero d’Oriente si separarono sempre di più.',[['395']]),
+ mc('Come faceva l’Impero d’Oriente a tenere lontani i barbari?','Pagava pesanti tributi in denaro ai capi germanici',['Costruiva grandi muraglie','Si alleava con gli Unni','Aveva sconfitto tutti i Germani']),
+ tf('L’Impero d’Occidente era ricco e forte.',false,'Era debole e impoverito, perciò più esposto alle invasioni.'),
+ fi('Le incursioni dei Germani diventarono vere invasioni tra il ___ e il ___ secolo.',[['IV','4','quarto'],['V','5','quinto']]),
+ mc('Perché i Germani invadevano le terre dell’Impero?','Erano attratti dal saccheggio e spinti dall’avanzata degli Unni',['Volevano diventare cristiani','Erano stati invitati dall’imperatore','Fuggivano da una carestia in Africa']),
+ mc('Chi erano gli Unni?','Un popolo nomade che dalle steppe della Mongolia si spostava verso l’Europa',['Un popolo germanico della Gallia','I soldati dell’Impero d’Oriente','Un popolo di agricoltori dell’Africa']),
+ mc('Che cos’è la steppa?','Una vasta prateria senza alberi, con clima secco e vegetazione erbosa',['Un deserto di sabbia','Una foresta fitta','Una catena di montagne']),
+ fi('La società degli Unni era di tipo ___: era formata da tribù che vivevano di ___ e razzie.',[['tribale'],['bottino']]),
+ fi('Gli Unni arrivarono nelle pianure dell’Europa orientale fra il ___ e il ___.',[['374'],['376']]),
+ mc('Che cosa fu l’“effetto domino” provocato dagli Unni?','I popoli germanici, per non essere travolti, si spostarono a ovest e invasero l’Impero d’Occidente',['Gli Unni conquistarono la Cina','I Romani attaccarono gli Unni in Asia','Le città romane caddero per un terremoto']),
+ mc('Quale popolo, guidato da Alarico, saccheggiò Roma nel 410?','i Visigoti',['i Vandali','gli Unni','gli Ostrogoti']),
+ fi('Alarico era stato sconfitto e respinto nel 402 e nel 403 dal generale romano ___.',[['Stilicone']]),
+ mc('Quale popolo arrivò dall’Africa e saccheggiò Roma nel 455?','i Vandali',['i Visigoti','gli Unni','i Franchi']),
+ tf('I Vandali furono gli unici Germani a usare navi da guerra.',true),
+ mc('Chi era chiamato “flagello di Dio”?','Attila, re degli Unni',['Alarico, re dei Visigoti','Odoacre','Teodorico'],'Attenzione allo spelling: A-T-T-I-L-A.'),
+ fi('Nel 451 Attila fu sconfitto dal generale romano ___ nella battaglia dei Campi ___.',[['Ezio'],['Catalaunici']]),
+ mc('Che cosa fecero gli Unni in Italia nel 452?','Rasero al suolo Aquileia e saccheggiarono Milano',['Saccheggiarono Roma','Fondarono Ravenna','Si convertirono al cristianesimo']),
+ tf('Secondo la leggenda, fu papa Leone I Magno a convincere Attila a lasciare l’Italia.',true),
+ mc('Perché, più probabilmente, Attila lasciò l’Italia?','Temeva nuove truppe imperiali e i suoi guerrieri erano decimati da una pestilenza',['Era stato catturato dai Romani','Voleva tornare in Cina','Aveva conquistato tutto quello che voleva']),
+ fi('Attila morì nel ___ e la minaccia unna sull’Occidente finì.',[['453']]),
+ mc('Chi era Romolo Augustolo?','L’ultimo imperatore romano d’Occidente',['Il primo re di Roma','Un generale unno','L’imperatore d’Oriente'],'Augustolo significa “piccolo Augusto”.'),
+ fi('Romolo Augustolo fu messo sul trono nel 475 da suo padre, il generale ___.',[['Oreste']]),
+ mc('Chi depose Romolo Augustolo nel 476?','Odoacre, comandante barbaro',['Attila','Teodorico','Zenone']),
+ tf('Dopo aver deposto Romolo Augustolo, Odoacre nominò un nuovo imperatore d’Occidente.',false,'Inviò le insegne imperiali all’imperatore d’Oriente Zenone e governò l’Italia come suo rappresentante, senza nominare un nuovo sovrano.'),
+ mc('Che cosa sono le insegne imperiali?','Abiti e oggetti dell’imperatore, simbolo del suo potere (diadema, scettro, spada corta)',['Le bandiere dell’esercito','Le monete d’oro','Le leggi dell’Impero']),
+ fi('Il 476 è per convenzione la data finale dell’Età ___ e l’inizio del ___.',[['antica','classica'],['Medioevo']]),
+ ma('Abbina ogni data all’evento.',[['395','Separazione tra Impero d’Oriente e d’Occidente'],['410','Sacco di Roma dei Visigoti'],['451','Battaglia dei Campi Catalaunici'],['455','Sacco di Roma dei Vandali'],['476','Fine dell’Impero romano d’Occidente']]),
+ op('Perché il 476 è una data così importante?','Nel 476 Odoacre depose Romolo Augustolo, l’ultimo imperatore romano d’Occidente, e mandò le insegne imperiali a Zenone. Per convenzione questa data segna la fine dell’Età antica e l’inizio del Medioevo.',['Odoacre','Romolo Augustolo','fine dell’Età antica','inizio del Medioevo']),
+ op('Che cosa racconta san Girolamo delle invasioni?','San Girolamo, testimone delle invasioni, racconta che da più di vent’anni ogni giorno si versa sangue: i barbari saccheggiano le province, devastano campi e villaggi, distruggono le chiese e uccidono i preti. Secondo lui l’Impero romano si avvicina alla fine.',['saccheggi e violenza','chiese distrutte','l’Impero si avvicina alla fine'])
+]},
+{id:'reg',tab:'⚔️ Regni barbarici',intro:'Regni romano-barbarici, Ostrogoti e Teodorico (pagine 34 e 44-46).',items:[
+ mc('Quale di queste NON è una causa della caduta dell’Impero d’Occidente?','L’Occidente era troppo ricco e popolato',['L’autorità degli imperatori era diminuita','Nell’esercito i barbari erano la maggioranza','L’Occidente era povero e spopolato']),
+ mc('Perché l’invasione dei barbari si può chiamare anche migrazione?','I guerrieri erano accompagnati dalle famiglie: donne, anziani e bambini',['I barbari arrivavano via mare','Restavano solo pochi giorni','Erano invitati dai Romani']),
+ mc('Perché gli storici li chiamano regni “romano-barbarici”?','Nascevano dall’incontro tra tradizione germanica e ciò che restava della civiltà romana',['Erano governati da imperatori romani','Erano abitati solo da barbari','Erano alleati di Roma contro gli Unni']),
+ ma('Abbina ogni popolo al territorio dove si stanziò.',[['Angli e Sassoni','Britannia'],['Franchi e Burgundi','Gallia'],['Visigoti','Penisola iberica'],['Suebi','Nord dell’attuale Portogallo'],['Vandali','Coste africane e Sardegna'],['Ostrogoti','Italia e Balcani']]),
+ mc('Quali regni durarono per secoli?','Quello dei Visigoti di Spagna e soprattutto quello dei Franchi',['Quello degli Ostrogoti e quello dei Vandali','Quello degli Unni','Quello dei Suebi']),
+ tf('Nei regni romano-barbarici i Germani erano più numerosi dei Romani.',false,'Erano una minoranza, ma più forti militarmente.'),
+ mc('All’inizio, come cercarono di evitare i contrasti i re germanici?','Tennero separate le popolazioni: vietarono i matrimoni misti e lasciarono le armi solo ai Germani',['Obbligarono i Romani a diventare ariani','Diedero tutte le terre ai Romani','Fecero sposare Germani e Romani']),
+ ma('Germani o Romani? Abbina ogni caratteristica.',[['Leggi del diritto romano','Romani'],['Consuetudini germaniche','Germani'],['Cristianesimo ariano','Germani'],['Religione cattolica','Romani'],['Difesa dei territori','Germani'],['Sfera amministrativa','Romani']]),
+ mc('Che cos’è l’arianesimo?','Una variante del cristianesimo che non considerava Gesù un dio, condannata dal concilio di Nicea del 325',['La religione degli Unni','Il diritto dei Germani','Una legge di Giustiniano']),
+ mc('Chi aiutò i Germani a governare, perché era istruito e capace di amministrare?','Gli aristocratici romani e gli ecclesiastici',['I soldati unni','I mercanti arabi','I contadini germanici']),
+ tf('Con l’arrivo dei Germani l’aristocrazia romana scomparve.',false,'Non scomparve; anzi, in un certo senso migliorò la sua condizione, perché guerre e saccheggi erano finiti.'),
+ tf('Col tempo anche i Germani si convertirono al cattolicesimo.',true),
+ ma('Chi è? Abbina ogni personaggio.',[['Odoacre','Comandante barbaro che depose Romolo Augustolo'],['Zenone','Imperatore d’Oriente'],['Teodorico','Re degli Ostrogoti'],['Cassiodoro','Storico alla corte di Teodorico'],['Severino Boezio','Filosofo, collaboratore fatto uccidere da Teodorico']]),
+ mc('Perché Zenone fece un patto con Teodorico?','Non vedeva di buon occhio il dominio di Odoacre in Italia',['Voleva conquistare la Gallia','Teodorico era suo figlio','Voleva fermare gli Unni']),
+ fi('Nel ___ Teodorico fondò il regno degli Ostrogoti e scelse come capitale ___.',[['493'],['Ravenna']]),
+ tf('Teodorico rispettò il patto con Odoacre e governarono insieme.',false,'Teodorico lo tradì: entrò in città e durante un banchetto uccise Odoacre e la sua famiglia.'),
+ fi('Teodorico regnò dal ___ al ___.',[['493'],['526']]),
+ mc('Perché Teodorico conosceva bene la cultura romana?','Aveva vissuto a lungo alla corte di Costantinopoli',['Era nato a Roma','Aveva studiato con san Girolamo','Era figlio di un senatore']),
+ mc('Quale di queste cose NON fece Teodorico?','Perseguitò gli ariani',['Abbellì Ravenna con splendidi mosaici','Favorì l’agricoltura e i commerci','Fece costruire un mausoleo a Ravenna'],'Teodorico era ariano: alla fine perseguitò i cattolici.'),
+ mc('Com’è fatta la copertura del mausoleo di Teodorico?','Una grande pietra monolitica (un solo blocco) a forma di cupola',['Tante tegole d’oro','Un tetto di legno','Mosaici colorati']),
+ mc('Perché fallì la convivenza tra Ostrogoti e Romani?','Per i contrasti religiosi (ariani e cattolici) e l’ostilità dell’Impero d’Oriente',['Perché Teodorico morì giovane','Perché gli Unni tornarono in Italia','Perché i Romani erano ariani']),
+ mc('Chi approfittò del disordine dopo la morte di Teodorico?','Giustiniano, nuovo imperatore d’Oriente',['Attila','Odoacre','Gregorio Magno']),
+ op('Perché si dice che Teodorico fu un buon amministratore?','Teodorico collaborò con l’aristocrazia e con grandi uomini di cultura come Cassiodoro e Boezio per unire tradizione romana e germanica; abbellì Ravenna con mosaici, ricostruì edifici pubblici (fortificazioni, monumenti, acquedotti) e favorì la ripresa dell’agricoltura e dei commerci.',['collaborazione con l’aristocrazia','Cassiodoro e Boezio','mosaici ed edifici pubblici','agricoltura e commerci']),
+ op('Quali difficoltà c’erano nella convivenza tra Germani e Romani?','I Germani erano una minoranza ma più forti militarmente; seguivano le consuetudini germaniche e non sapevano governare territori così vasti, mentre i Romani seguivano il diritto romano. Inoltre i Germani erano ariani e i Romani cattolici.',['minoranza ma più forti','leggi diverse','ariani e cattolici'])
+]},
+{id:'giu',tab:'👑 Giustiniano',intro:'L’Impero d’Oriente e Giustiniano (pagine 47-51).',items:[
+ mc('Perché gli abitanti dell’Impero d’Oriente si definivano “romani”?','Si consideravano i legittimi successori dell’antica Roma',['Parlavano latino','Vivevano a Roma','Erano tutti nati in Italia']),
+ tf('La lingua ufficiale dell’Impero d’Oriente era il latino.',false,'Era il greco.'),
+ fi('L’Impero d’Oriente si chiama anche Impero ___, da Bisanzio, antico nome di ___.',[['bizantino'],['Costantinopoli']]),
+ mc('Nel V secolo, come teneva lontani i barbari l’Impero d’Oriente?','Con un’abile diplomazia, un esercito ben organizzato e pesanti tributi',['Con una grande muraglia','Con l’aiuto degli Unni','Abbandonando le province']),
+ mc('Quale di questi NON era un punto di forza dell’Impero d’Oriente nel VI secolo?','Un esercito guidato da comandanti barbari',['Un governo centrale forte','Funzionari statali efficienti','Una potente flotta da guerra']),
+ mc('Da dove veniva la ricchezza dell’Impero d’Oriente?','Dai commerci con l’Asia di prodotti di lusso e da un’agricoltura molto sviluppata',['Dai saccheggi in Occidente','Dai tributi pagati dagli Unni','Dalle miniere d’oro in Britannia']),
+ mc('Che cos’era il fuoco greco?','Una miscela segreta usata dai Bizantini per lanciare fuoco sui nemici',['Una festa religiosa','Un tipo di mosaico','Una legge di Giustiniano']),
+ fi('Giustiniano salì al trono di Costantinopoli nel ___.',[['527']]),
+ mc('Qual era l’obiettivo principale di Giustiniano?','Riportare l’Impero all’antico splendore, riconquistando i territori occidentali',['Convertire i Persiani','Spostare la capitale a Roma','Allearsi con gli Ostrogoti']),
+ mc('Che cosa fece Giustiniano prima di partire alla conquista dell’Occidente?','Riorganizzò l’amministrazione delle province e chiuse la guerra contro i Persiani',['Costruì il mausoleo di Ravenna','Sconfisse gli Unni','Diventò papa']),
+ fi('Il sistema in cui l’imperatore è anche capo religioso si chiama ___.',[['cesaropapismo']],'Cesaropapismo = “Cesare” (potere politico) + “Papa” (autorità religiosa).'),
+ mc('Che cos’è il Corpus iuris civilis?','Una raccolta di leggi (528-535) che riordinò tutto il diritto romano',['Un esercito di Giustiniano','La chiesa di Santa Sofia','Il libro delle regole dei monaci']),
+ tf('Ancora oggi molte leggi delle nazioni occidentali si rifanno al Corpus iuris civilis.',true),
+ mc('Chi erano Belisario e Narsete?','I generali di Giustiniano',['Due papi','Due re ostrogoti','Due monaci']),
+ ma('Abbina ogni data all’evento.',[['534','Giustiniano toglie ai Vandali le coste del Nordafrica'],['535-553','Guerra greco-gotica'],['554','L’Italia diventa provincia bizantina'],['568','I Longobardi arrivano in Italia']]),
+ mc('Perché si chiama guerra “greco-gotica”?','Fu combattuta tra Bizantini (Greci) e Ostrogoti (Goti)',['Fu combattuta in Grecia','Fu combattuta tra Visigoti e Ostrogoti','Fu combattuta contro i Persiani']),
+ tf('La guerra greco-gotica fu breve e causò pochi danni.',false,'Durò dal 535 al 553: molte città furono saccheggiate e tutta l’Italia fu colpita da carestie e pestilenze.'),
+ fi('In Italia i Bizantini misero un governatore con poteri civili e militari, chiamato ___.',[['esarca']]),
+ mc('Perché Ravenna fu scelta come centro del potere?','Per la posizione strategica: sull’Adriatico, a pochi giorni di nave da Costantinopoli',['Era la città più grande d’Italia','Lì viveva il papa','Era protetta dalle Alpi']),
+ tf('Dopo la guerra l’Italia era in buone condizioni.',false,'Era in condizioni disastrose, peggiorate dalle tasse molto gravose imposte dai Bizantini.'),
+ mc('Dove si trova il mosaico che rappresenta Giustiniano con la sua corte?','Nella chiesa di San Vitale a Ravenna',['A Santa Sofia a Costantinopoli','A San Pietro a Roma','A Montecassino']),
+ mc('Perché gli ultimi anni di regno di Giustiniano furono terribili?','Ci fu una violenta epidemia di peste e i Persiani ripresero la guerra',['Giustiniano fu deposto','I Vandali conquistarono Costantinopoli','Un terremoto distrusse Ravenna']),
+ mc('Chi tolse ai Bizantini i domini in Spagna?','i Visigoti',['i Franchi','i Longobardi','gli Arabi']),
+ mc('Quali popoli nomadi si insediarono nei Balcani?','Avari, Slavi e Bulgari',['Unni e Vandali','Franchi e Burgundi','Arabi e Persiani']),
+ fi('L’imperatore ___ (610-641) riuscì a sconfiggere i Persiani.',[['Eraclio']]),
+ mc('Quale nuovo e temibile nemico stava emergendo?','gli Arabi',['gli Unni','i Romani','i Celti']),
+ op('Quali erano i punti di forza dell’Impero d’Oriente nel VI secolo?','Un governo centrale forte, con l’imperatore che aveva autorità politica e religiosa; funzionari statali efficienti; un esercito ben addestrato, non affidato a comandanti barbari, e una potente flotta; la ricchezza grazie ai commerci con l’Asia e all’agricoltura.',['governo centrale forte','funzionari efficienti','esercito e flotta','ricchezza e commerci']),
+ op('Che cosa provocò la guerra greco-gotica?','Fu un conflitto terribile: molte città furono saccheggiate e l’Italia fu colpita da carestie e pestilenze. Alla fine i Bizantini vinsero e nel 554 l’Italia diventò provincia imperiale, ma era in condizioni disastrose, peggiorate dalle tasse.',['città saccheggiate','carestie e pestilenze','Italia provincia bizantina','tasse pesanti'])
+]},
+{id:'chi',tab:'⛪ Chiesa e Longobardi',intro:'L’autorità della Chiesa in Occidente e i Longobardi (pagine 60-62).',items:[
+ mc('Che cosa fece crescere l’importanza della Chiesa?','Le autorità imperiali non riuscivano più a garantire sicurezza e amministrazione',['La ricchezza dell’Impero d’Occidente','L’aiuto degli Unni','La fine del cristianesimo in Oriente']),
+ mc('Qual era il ruolo dei vescovi?','Garantivano il sostentamento della popolazione e trattavano con i capi barbari',['Guidavano gli eserciti','Riscuotevano le tasse per Costantinopoli','Scrivevano le leggi germaniche']),
+ tf('In pochi decenni i vescovi diventarono le maggiori autorità politiche delle città.',true),
+ mc('Perché il vescovo di Roma aveva più prestigio degli altri?','Risiedeva a Roma ed era considerato il successore dell’apostolo Pietro',['Era nominato dall’imperatore','Era il più ricco','Parlava greco']),
+ mc('Quale papa ebbe il coraggio di fronteggiare Attila?','Leone I',['Gregorio Magno','Basilio','Benedetto']),
+ fi('Gregorio I Magno fu papa dal ___ al ___.',[['590'],['604']]),
+ mc('Quale di queste cose NON fece Gregorio Magno?','Si alleò con i Longobardi per conquistare Roma',['Cercò di migliorare le condizioni di vita della popolazione','Diffuse i valori spirituali tra i fedeli','Organizzò la difesa di Roma']),
+ tf('Spesso Gregorio Magno è rappresentato con una colomba, simbolo dello Spirito Santo.',true),
+ fi('I Longobardi arrivarono in Italia nel 568-569, dall’area dell’odierna ___.',[['Ungheria']]),
+ mc('Qual era la religione dei Longobardi?','Erano ariani oppure pagani',['Erano cattolici','Erano musulmani','Non avevano religione']),
+ mc('Che cosa conquistarono rapidamente i Longobardi?','Tutta l’Italia settentrionale, la Toscana e i domini di Spoleto e Benevento',['Tutta l’Italia, compresa la Sicilia','Solo Roma','La Sardegna e la Corsica']),
+ tf('All’inizio i Longobardi cercarono una convivenza pacifica con i Romani.',false,'I Romani furono costretti a pagare pesanti tributi e la loro classe dirigente fu spazzata via con la violenza.'),
+ tf('L’Impero d’Oriente riuscì a fermare i Longobardi.',false,'Non riuscì in alcun modo: solo la Chiesa alleviò le sofferenze della popolazione.'),
+ mc('Come allontanò Gregorio Magno la minaccia longobarda da Roma?','Organizzò le difese della città e pagò un enorme tributo',['Sconfisse i Longobardi in battaglia','Chiamò in aiuto gli Unni','Abbandonò Roma']),
+ mc('Quale fu il primo passo per una migliore convivenza con i Longobardi?','La conversione dei sovrani longobardi al cattolicesimo',['La costruzione di un muro','La divisione dell’Italia in due','Il ritorno dei Longobardi in Ungheria']),
+ mc('Guardando la carta del libro: quale di queste zone rimase ai Bizantini?','l’Esarcato di Ravenna',['il Ducato di Spoleto','il Ducato di Benevento','la Toscana']),
+ mc('Come si chiamano i ducati longobardi nell’Italia centro-meridionale?','Ducato di Spoleto e Ducato di Benevento',['Ducato romano ed Esarcato','Ducato di Milano e di Venezia','Ducato di Sicilia e di Sardegna']),
+ tf('Guardando la carta, il regno dei Longobardi in Italia era tutto unito.',false,'Era diviso: in mezzo c’erano territori bizantini come l’Esarcato di Ravenna e il Ducato romano.'),
+ mc('Da dove venivano le grandi ricchezze della Chiesa?','Da donazioni e lasciti testamentari',['Dai saccheggi','Dalle tasse dei Longobardi','Dai commerci con l’Asia'],'Si scrive “lasciti testamentari”: sono i beni lasciati alla Chiesa nel testamento.'),
+ fi('Grazie alle sue ricchezze, la Chiesa diventò il principale ente ___ in Occidente.',[['assistenziale']]),
+ fi('Le terre del Lazio e dell’Italia centrale amministrate dal papa erano chiamate “Patrimonio di ___”.',[['san Pietro','Pietro']]),
+ fi('Il potere politico del papa si chiama potere ___.',[['temporale']],'Dal latino temporalis, “che passa, non eterno”: riguarda le cose terrene.'),
+ mc('Il potere spirituale del papa riguardava…','le “cose eterne”, cioè l’ambito religioso',['le tasse','l’esercito','il commercio']),
+ mc('Quando il Patrimonio di san Pietro diventò un vero Stato autonomo?','Tra l’VIII e il IX secolo',['Nel 476','Nel V secolo','Alla fine del XIX secolo']),
+ tf('Il potere temporale dei papi durò fino alla fine del XIX secolo.',true),
+ fi('L’Alto Medioevo va dal ___ al ___.',[['476'],['1000']]),
+ op('Perché il vescovo di Roma acquistò sempre più importanza?','Perché risiedeva a Roma, antica capitale dell’Impero, ed era considerato il successore di Pietro. La sua fama crebbe quando Leone I fronteggiò Attila e poi con Gregorio Magno, che aiutò la popolazione e difese Roma dai Longobardi.',['Roma antica capitale','successore di Pietro','Leone I e Attila','Gregorio Magno']),
+ op('Come aumentò il potere della Chiesa nell’Alto Medioevo?','Il potere della Chiesa aumentò grazie alle donazioni dei beni e ai lasciti testamentari, cioè il Patrimonio di san Pietro, amministrato dal papa. Il papa diventò così anche capo politico, cioè esercitò il potere temporale.',['donazioni e lasciti testamentari','Patrimonio di san Pietro','il papa','potere temporale'])
+]},
+{id:'mon',tab:'📜 Monachesimo',intro:'La nascita e la diffusione del monachesimo (pagine 63-65).',items:[
+ mc('Dove e quando nacque il monachesimo?','Nelle province orientali e mediterranee dell’Impero, tra il III e il IV secolo',['In Irlanda, nel VI secolo','A Roma, nel 476','In Ungheria, nel 568']),
+ fi('La parola “monaco” viene dal greco mónos, che significa “___”.',[['solo']]),
+ ma('Abbina ogni parola al suo significato.',[['Eremiti','Monaci che vivevano soli in caverne o capanne'],['Cenobi','Piccole comunità di monaci'],['Abate','Chi ha l’autorità suprema nella comunità'],['Ordine','Comunità religiosa con una regola approvata dal papa'],['Scriptorium','Ambiente del monastero dove si copiavano i libri'],['Amanuensi','Monaci che ricopiavano i testi antichi']]),
+ mc('Quali regole stabilì Basilio per i monaci dei cenobi?','Obbedienza assoluta all’abate, vita povera e divieto di sposarsi',['Ora et labora','Lavorare solo nei campi','Vivere da soli in una caverna']),
+ fi('Basilio era vescovo di ___, una città della Cappadocia (oggi Turchia).',[['Cesarea']]),
+ fi('Il monachesimo si diffuse in Occidente nel ___ secolo.',[['IV-V','4-5','IV e V']]),
+ mc('In che cosa era diverso il monachesimo occidentale?','Era meno eremitico e più legato alla vita pratica',['Era più eremitico','Non aveva regole','Era solo per i nobili']),
+ mc('Chi convertì i Celti d’Irlanda nel 432?','san Patrizio',['san Benedetto','Basilio','Gregorio Magno']),
+ tf('San Patrizio usava il trifoglio per spiegare il concetto della Trinità.',true),
+ mc('A che cosa si dedicarono soprattutto i monaci irlandesi?','Alle missioni, per diffondere il cristianesimo tra i pagani',['Alla guerra contro i Longobardi','Al commercio con l’Asia','A scrivere leggi']),
+ fi('Benedetto da ___ (480-547) fondò l’ordine ___.',[['Norcia'],['benedettino']]),
+ tf('Per entrare nell’ordine benedettino bisognava essere ricchi e romani.',false,'Poteva entrare chiunque, ricco o povero, servo o libero, barbaro o romano, purché avesse una fede sincera e accettasse la Regola.'),
+ fi('Il motto della Regola è “Ora et ___”, che significa “prega e ___”.',[['labora'],['lavora']]),
+ mc('Qual era la novità essenziale del monachesimo benedettino?','La valorizzazione del lavoro, manuale e intellettuale',['Il divieto di lavorare','La vita da eremita','La guerra contro i pagani']),
+ tf('Il mondo greco-romano disprezzava le attività manuali.',true),
+ mc('Che cosa vuol dire che ogni monastero mirava all’autosufficienza?','Produceva da solo il cibo necessario e aveva attrezzi per coltivare e laboratori',['Comprava tutto al mercato','Viveva delle tasse dei contadini','Riceveva cibo dall’imperatore']),
+ mc('Che cosa realizzarono i monaci nelle loro terre?','Bonifiche, frantoi e mulini',['Castelli e torri','Porti e navi','Anfiteatri']),
+ mc('Su che cosa scrivevano i monaci?','Sulla pergamena',['Sulla carta','Su tavolette di cera','Sul papiro']),
+ fi('I monaci decoravano le pergamene con le ___, fatte soprattutto col minio, un colore rosso vivo.',[['miniature']]),
+ mc('Che cosa permisero i monasteri, grazie alla copiatura dei testi?','Che la cultura antica potesse in parte sopravvivere',['Che si dimenticasse il latino','Che i libri venissero bruciati','Che si smettesse di leggere']),
+ op('Che cosa significa “Ora et labora” e perché il lavoro era così importante per Benedetto?','“Ora et labora” significa “prega e lavora”: sono le due attività fondamentali della Regola. Per Benedetto il lavoro, manuale e intellettuale, era il rimedio all’ozio, aiutava la crescita morale ed era un mezzo per ottenere la salvezza eterna.',['prega e lavora','rimedio all’ozio','crescita morale','salvezza eterna']),
+ op('Perché i monasteri furono importanti per la cultura?','Nello scriptorium i monaci ricopiavano su pergamena i classici antichi e le opere religiose, decorandole con miniature. Si formarono ricche biblioteche e così la cultura antica poté in parte sopravvivere.',['scriptorium','copiatura dei testi','biblioteche','la cultura antica sopravvive'])
+]},
+{id:'tem',tab:'🗓️ Linea del tempo',intro:'Date ed eventi in ordine. Prima prova a ricordarle, poi controlla.',items:[
+ or('Metti in ordine, dal più antico al più recente.',['Impero d’Oriente e d’Occidente si separano','I Visigoti di Alarico saccheggiano Roma','Attila è sconfitto ai Campi Catalaunici','I Vandali saccheggiano Roma','Odoacre depone Romolo Augustolo'],'Le date: 395, 410, 451, 455, 476.'),
+ or('Metti in ordine, dal più antico al più recente.',['Teodorico fonda il regno degli Ostrogoti','Muore Teodorico','Giustiniano sale al trono','Inizia la guerra greco-gotica','L’Italia diventa provincia bizantina','I Longobardi arrivano in Italia','Gregorio Magno diventa papa'],'Le date: 493, 526, 527, 535, 554, 568, 590.'),
+ or('Metti in ordine, dal più antico al più recente.',['Il monachesimo nasce in Oriente','San Patrizio converte i Celti d’Irlanda','Nasce Benedetto da Norcia','Il Patrimonio di san Pietro diventa uno Stato autonomo','Finisce il potere temporale dei papi'],'Le date: III-IV secolo, 432, 480, VIII-IX secolo, fine del XIX secolo.'),
+ ma('Abbina ogni data all’evento.',[['395','Separazione tra Oriente e Occidente'],['410','Sacco di Roma dei Visigoti'],['452','Gli Unni distruggono Aquileia e saccheggiano Milano'],['453','Muore Attila'],['455','Sacco di Roma dei Vandali'],['476','Fine dell’Impero d’Occidente']]),
+ ma('Abbina ogni data all’evento.',[['493','Nasce il regno degli Ostrogoti'],['527','Giustiniano diventa imperatore'],['528-535','Corpus iuris civilis'],['535-553','Guerra greco-gotica'],['568','Arrivo dei Longobardi'],['590-604','Papato di Gregorio Magno']]),
+ mc('In che secolo è il 476?','V secolo',['IV secolo','VI secolo','XV secolo'],'Gli anni dal 401 al 500 sono il V secolo.'),
+ mc('In che secolo arrivano i Longobardi (568)?','VI secolo',['V secolo','VII secolo','XVI secolo']),
+ fi('Il sacco di Roma dei Visigoti avvenne nel ___, quello dei Vandali nel ___.',[['410'],['455']]),
+ fi('Giustiniano diventa imperatore nel ___; la guerra greco-gotica dura dal ___ al ___.',[['527'],['535'],['553']])
+]}
+];
+
+const CARDS=[
+['395','Impero d’Oriente e d’Occidente si separano (morte di Teodosio)'],['410','Sacco di Roma dei Visigoti di Alarico'],['451','Ezio sconfigge Attila ai Campi Catalaunici'],
+['452','Gli Unni distruggono Aquileia e saccheggiano Milano'],['453','Muore Attila'],['455','Sacco di Roma dei Vandali'],['476','Odoacre depone Romolo Augustolo: fine dell’Impero d’Occidente e inizio del Medioevo'],
+['493','Teodorico fonda il regno degli Ostrogoti (capitale Ravenna)'],['526','Muore Teodorico'],['527','Giustiniano sale al trono'],['528-535','Corpus iuris civilis'],
+['535-553','Guerra greco-gotica'],['554','L’Italia diventa provincia bizantina'],['568','I Longobardi arrivano in Italia'],['590-604','Papato di Gregorio Magno'],
+['432','San Patrizio converte i Celti d’Irlanda'],['480-547','Vita di Benedetto da Norcia'],['610-641','Regno di Eraclio, che sconfigge i Persiani'],
+['Steppa','Vasta prateria senza alberi dell’Asia centrale e orientale'],['Effetto domino','I Germani, spinti dagli Unni, si spostano a ovest dentro l’Impero'],['Flagello di Dio','Soprannome di Attila'],
+['Insegne imperiali','Abiti e oggetti simbolo del potere dell’imperatore'],['Romolo Augustolo','Ultimo imperatore d’Occidente (“piccolo Augusto”)'],
+['Regni romano-barbarici','Regni nati dall’incontro tra Germani e civiltà romana'],['Arianesimo','Cristianesimo che non considerava Gesù un dio'],
+['Esarca','Governatore bizantino dell’Italia, con poteri civili e militari'],['Cesaropapismo','L’imperatore è anche capo religioso (Cesare + Papa)'],
+['Corpus iuris civilis','Raccolta di leggi di Giustiniano che riordina il diritto romano'],['Fuoco greco','Miscela segreta dei Bizantini per lanciare fuoco sui nemici'],
+['Potere temporale','Potere politico del papa (temporalis = che passa)'],['Patrimonio di san Pietro','Terre del papa nel Lazio e nell’Italia centrale'],
+['Alto Medioevo','Dal 476 al 1000'],['Eremiti','Monaci che vivono soli (“solitari”)'],['Cenobi','Piccole comunità di monaci'],['Abate','Autorità suprema nella comunità di monaci'],
+['Ordine','Comunità religiosa con regola approvata dal papa'],['Ora et labora','“Prega e lavora”, motto della Regola di Benedetto'],
+['Scriptorium','Stanza del monastero dove si copiano i libri'],['Amanuensi','Monaci che ricopiano i testi antichi'],['Miniatura','Decorazione fatta soprattutto col minio, rosso vivo'],
+['Autosufficienza','Produrre da soli tutto il cibo e gli attrezzi necessari']
+].map(([f,b])=>({f,b}));
+
+/* ---------- MOTORE ---------- */
+const TYPE={mc:'Crocetta',tf:'Vero o falso',fill:'Completa',match:'Abbina',order:'Metti in ordine',open:'Domanda aperta'};
+
+function renderItem(it,n,record){
+  const c=el('div','card');
+  c.append(el('span','qn',`${n} · ${TYPE[it.t]}`));
+  const fb=el('div','fb');
+  const q=t=>c.append(el('div','q',t));
+  const done=(ok,msg)=>{fb.className='fb '+(ok?'okm':'badm');fb.innerHTML=(ok?'✅ ':'❌ ')+(msg||(ok?pick(PRAISE):'Non proprio.'));record(ok)};
+
+  if(it.t==='mc'||it.t==='tf'){
+    const opts=it.t==='tf'?['Vero','Falso']:shuffle(it.opts);
+    const ans=it.t==='tf'?(it.a?'Vero':'Falso'):it.opts[it.a];
+    q(it.q);const box=el('div','opts');
+    opts.forEach(o=>{const b=el('button','opt');b.textContent=o;b.onclick=()=>{
+      [...box.children].forEach(x=>{x.disabled=true;if(x.textContent===ans)x.classList.add('ok')});
+      const ok=o===ans;if(!ok)b.classList.add('bad');
+      done(ok,(ok?pick(PRAISE)+' ':'La risposta giusta è: <b>'+ans+'</b>. ')+(it.ex||''));
+    };box.append(b)});
+    c.append(box);
+  }
+
+  if(it.t==='fill'){
+    q('Completa la frase.');
+    const p=el('div','fill');const ins=[];let last=null;
+    const parts=it.q.split('___');
+    parts.forEach((t,i)=>{p.append(document.createTextNode(t));if(i<parts.length-1){const x=document.createElement('input');x.setAttribute('autocapitalize','off');x.autocomplete='off';x.spellcheck=false;x.onfocus=()=>{last=x};ins.push(x);p.append(x)}});
+    c.append(p);
+    if(it.bank){const bk=el('div','bank');shuffle(it.bank).forEach(w=>{const ch=el('button','chip');ch.textContent=w;ch.onclick=()=>{
+      const t=(last&&!last.value&&!last.disabled)?last:ins.find(x=>!x.value&&!x.disabled);
+      if(t){t.value=w;last=ins.find(x=>!x.value)||null}
+    };bk.append(ch)});c.append(bk)}
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{
+      let all=true;
+      ins.forEach((x,i)=>{
+        const v=norm(x.value);const ok=v&&it.a[i].some(s=>norm(s)===v);
+        x.disabled=true;x.classList.add(ok?'ok':'bad');
+        if(!ok){all=false;x.insertAdjacentHTML('afterend',`<span class="fix">→ ${it.a[i][0]}</span>`)}
+      });
+      chk.remove();done(all,all?pick(PRAISE)+(it.ex?' '+it.ex:''):'Guarda le parole in verde. '+(it.ex||''));
+    };
+    c.append(row(chk));
+  }
+
+  if(it.t==='match'){
+    q(it.q);
+    const rights=shuffle([...new Set(it.pairs.map(p=>p[1]))]);
+    const sels=shuffle(it.pairs).map(([l,r])=>{
+      const w=el('div','mrow');w.append(el('b',null,l));
+      const s=document.createElement('select');s.setAttribute('aria-label',l);
+      s.innerHTML='<option value="">scegli…</option>'+rights.map(o=>`<option>${o}</option>`).join('');
+      w.append(s);c.append(w);return {s,r,w}});
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{let all=true;sels.forEach(({s,r,w})=>{const ok=s.value===r;s.disabled=true;s.classList.add(ok?'ok':'bad');if(!ok){all=false;w.append(el('span','fix','→ '+r))}});chk.remove();done(all,all?pick(PRAISE):'Guarda le risposte in verde.')};
+    c.append(row(chk));
+  }
+
+  if(it.t==='order'){
+    q(it.q);const seq=el('div','seq'),pool=el('div','opts'),picked=[];
+    const draw=()=>{seq.innerHTML=picked.length?picked.map((s,i)=>`<div><b>${i+1}.</b> ${s}</div>`).join(''):'<span class="hint">Tocca gli eventi qui sotto nell’ordine giusto.</span>'};
+    shuffle(it.a).forEach(s=>{const b=el('button','opt');b.textContent=s;b.onclick=()=>{picked.push(s);b.style.display='none';draw()};pool.append(b)});
+    const undo=el('button','btn soft','↶ Annulla');undo.onclick=()=>{const s=picked.pop();if(s){[...pool.children].find(b=>b.textContent===s).style.display='';draw()}};
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{
+      if(picked.length<it.a.length){fb.className='fb badm';fb.textContent='Prima metti in ordine tutti gli eventi.';return}
+      const ok=picked.every((s,i)=>s===it.a[i]);
+      seq.innerHTML=picked.map((s,i)=>`<div class="${s===it.a[i]?'ok':'bad'}"><b>${i+1}.</b> ${s}</div>`).join('');
+      undo.remove();chk.remove();
+      done(ok,(ok?pick(PRAISE)+' ':'L’ordine giusto è:<br>'+it.a.map((s,i)=>`${i+1}. ${s}`).join('<br>')+'<br>')+(it.ex||''));
+    };
+    draw();c.append(seq,pool,row(undo,chk));
+  }
+
+  if(it.t==='open'){
+    q(it.q);const ta=document.createElement('textarea');ta.placeholder='Scrivi qui la tua risposta…';c.append(ta);
+    const show=el('button','btn','Mostra la risposta modello');c.append(row(show));
+    show.onclick=()=>{
+      show.parentNode.remove();
+      c.insertBefore(el('div','model','<b>Risposta modello</b><br>'+it.model+(it.keys?'<br><br><b>Parole chiave:</b> '+it.keys.join('; '):'')),fb);
+      const y=el('button','btn','✓ Avevo i concetti chiave'),nn=el('button','btn soft','✗ Non ancora');const r2=row(y,nn);c.insertBefore(r2,fb);
+      y.onclick=()=>{r2.remove();done(true,'Ottimo lavoro!')};
+      nn.onclick=()=>{r2.remove();done(false,'Rileggi la risposta modello e prova a ripeterla a voce alta.')};
+    };
+  }
+  c.append(fb);return c;
+}
+
+function practice(m,intro,items,restart){
+  m.innerHTML='';m.append(el('p','intro',intro));
+  const res={};const bars=[];
+  const mkBar=()=>{
+    const b=el('div','scorebar',`<div class="sc"></div><div class="row"><button class="btn soft rs">↻ Ricomincia</button><button class="btn rt">Rifai gli errori</button></div>`);
+    const upd=()=>{
+      const v=Object.values(res),ok=v.filter(Boolean).length,wrong=v.length-ok,left=items.length-v.length;
+      b.querySelector('.sc').innerHTML=`✅ <b>${ok}</b> &nbsp; ❌ <b>${wrong}</b> &nbsp; ${left?'mancano '+left:(wrong?'Finito!':'Tutto giusto! 🎉')}`;
+      b.querySelector('.rt').disabled=!wrong;
+    };
+    b.querySelector('.rs').onclick=()=>{restart();scrollTo(0,0)};
+    b.querySelector('.rt').onclick=()=>{const w=items.filter(it=>res[it.uid]===false);practice(m,'Riproviamo le domande sbagliate 💪',w,restart);scrollTo(0,0)};
+    bars.push(upd);upd();return b;
+  };
+  m.append(mkBar());
+  items.forEach((it,i)=>m.append(renderItem(it,i+1,ok=>{res[it.uid]=ok;bars.forEach(f=>f())})));
+  m.append(mkBar());
+}
+
+function renderFlash(m){
+  let rev=false,deck=shuffle(CARDS),known=0,flipped=false;
+  m.innerHTML=`<p class="intro">Date e parole chiave. Prova a ricordare, poi tocca la carta per girarla.</p>
+  <div class="row" style="margin:0 0 12px"><button class="btn soft" id="dir"></button><button class="btn soft" id="fr">↻ Mescola</button></div>
+  <div class="card flash" id="fc" role="button" tabindex="0"></div>
+  <div class="row"><button class="btn soft" id="ag">↻ La rivedo dopo</button><button class="btn" id="kn">✓ La so</button></div>
+  <p class="intro" id="fcount" style="margin-top:12px"></p>`;
+  const draw=()=>{
+    $('#dir').textContent=rev?'Davanti: spiegazione':'Davanti: data o parola';
+    if(!deck.length){$('#fc').innerHTML='<div>🎉 Finite!<small>Tocca “Mescola” per ricominciare</small></div>';$('#fcount').textContent='';return}
+    const w=deck[0],front=rev?w.b:w.f,back=rev?w.f:w.b;
+    $('#fc').innerHTML=flipped?`<div>${back}</div>`:`<div>${front}<small>tocca per girare</small></div>`;
+    $('#fcount').textContent=`Carte rimaste: ${deck.length} · già sapute: ${known}`;
+  };
+  const flip=()=>{flipped=!flipped;draw()};
+  $('#fc').onclick=flip;$('#fc').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
+  $('#kn').onclick=()=>{if(!deck.length)return;deck.shift();known++;flipped=false;draw()};
+  $('#ag').onclick=()=>{if(!deck.length)return;deck.push(deck.shift());flipped=false;draw()};
+  $('#dir').onclick=()=>{rev=!rev;flipped=false;draw()};
+  $('#fr').onclick=()=>{deck=shuffle(CARDS);known=0;flipped=false;draw()};
+  draw();
+}
+
+function renderMix(m){
+  const all=SECTIONS.flatMap(s=>s.items.map((it,i)=>({...it,uid:s.id+i}))).filter(it=>it.t!=='open');
+  practice(m,'Simulazione di verifica: 15 domande a caso da tutti i capitoli. 🎯',shuffle(all).slice(0,15),()=>renderMix(m));
+}
+
+const TABS=[...SECTIONS.map(s=>({id:s.id,label:s.tab})),{id:'mix',label:'🎯 Verifica'},{id:'flash',label:'🃏 Carte'}];
+function go(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.id===id));
+  const m=$('#main');
+  if(id==='flash')return renderFlash(m);
+  if(id==='mix')return renderMix(m);
+  const s=SECTIONS.find(x=>x.id===id);
+  practice(m,s.intro,s.items.map((it,i)=>({...it,uid:id+i})),()=>go(id));
+}
+TABS.forEach(t=>{const b=el('button','tab');b.textContent=t.label;b.dataset.id=t.id;b.onclick=()=>{go(t.id);scrollTo(0,0)};$('#tabs').append(b)});
+go('cad');
+</script>
+</body>
+</html>
