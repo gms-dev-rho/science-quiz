@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Geografia – Ripasso per l’interrogazione</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3f7f6;--grid:#dbe7e5;--card:#ffffff;--ink:#17302f;--muted:#53706d;--line:#cfdedb;
+  --acc:#0f6e6e;--acc-ink:#ffffff;--warm:#e0662a;--hl:#ffe9a8;--hl-ink:#17302f;
+  --ok:#227a4b;--ok-bg:#e1f3e8;--bad:#b83a28;--bad-bg:#fbe5e0;--chip:#e8f1ef;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#111a1a;--grid:#1b2828;--card:#182424;--ink:#e3efed;--muted:#9bb5b1;--line:#2b3b3a;
+    --acc:#5cc7c0;--acc-ink:#0d1616;--warm:#ff8f57;--hl:#6d5a1c;--hl-ink:#fff4d0;
+    --ok:#6fd49b;--ok-bg:#16352a;--bad:#ff8c76;--bad-bg:#3c1f19;--chip:#203030;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111a1a;--grid:#1b2828;--card:#182424;--ink:#e3efed;--muted:#9bb5b1;--line:#2b3b3a;
+  --acc:#5cc7c0;--acc-ink:#0d1616;--warm:#ff8f57;--hl:#6d5a1c;--hl-ink:#fff4d0;
+  --ok:#6fd49b;--ok-bg:#16352a;--bad:#ff8c76;--bad-bg:#3c1f19;--chip:#203030;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:44px 44px;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:3px solid var(--acc)}
+.top{max-width:720px;margin:auto;padding:14px 16px 2px;display:flex;align-items:baseline;gap:10px}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.6rem;margin:0;color:var(--warm);letter-spacing:-.01em}
+.top small{color:var(--muted)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 16px 12px;max-width:720px;margin:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font:700 .9rem "Atkinson Hyperlegible",system-ui,sans-serif;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 13px;cursor:pointer}
+.tab.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+main{max-width:720px;margin:auto;padding:16px 14px 48px}
+.intro{color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px}
+.qn{display:inline-block;font:700 .78rem "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--acc-ink);background:var(--acc);border-radius:6px;padding:1px 8px}
+.q{font-weight:700;margin:8px 0 12px;white-space:pre-line}
+.opts{display:grid;gap:8px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--warm);outline-offset:2px}
+.opt{text-align:left;padding:11px 13px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.opt:disabled{cursor:default}
+.ok{background:var(--ok-bg)!important;border-color:var(--ok)!important}
+.bad{background:var(--bad-bg)!important;border-color:var(--bad)!important}
+.btn{padding:10px 16px;border-radius:12px;border:none;background:var(--acc);color:var(--acc-ink);font-weight:700}
+.btn.soft{background:var(--chip);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fb:empty{display:none}
+.fb{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:.95rem}
+.fb.okm{background:var(--ok-bg);color:var(--ok)}
+.fb.badm{background:var(--bad-bg);color:var(--bad)}
+.fill{line-height:2.5}
+.fill input{font:inherit;width:7.5em;padding:2px 8px;border:none;border-bottom:3px solid var(--ink);border-radius:4px;background:var(--hl);color:var(--hl-ink)}
+.fix{color:var(--ok);font-weight:700;font-size:.9rem;margin:0 4px;white-space:nowrap}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:10px;border-top:2px dashed var(--line)}
+.chip{padding:5px 11px;border-radius:999px;background:var(--chip);border:1px solid var(--line);color:var(--ink);font-size:.92rem}
+.mrow{display:grid;gap:6px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.mrow:last-of-type{border-bottom:none}
+.mrow b{color:var(--acc)}
+select{font:inherit;width:100%;padding:8px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+textarea{width:100%;box-sizing:border-box;min-height:90px;font:inherit;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.model{margin-top:12px;padding:12px;border-left:5px solid var(--warm);background:var(--chip);border-radius:8px}
+.seq{display:flex;flex-direction:column;gap:6px;margin:4px 0 12px}
+.seq div{padding:8px 11px;border-radius:10px;background:var(--chip)}
+.hint{color:var(--muted);font-size:.92rem}
+.scorebar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:0 0 14px}
+.scorebar .row{margin:0}
+.flash{min-height:210px;display:grid;place-items:center;text-align:center;font:800 1.6rem "Bricolage Grotesque",system-ui,sans-serif;cursor:pointer;user-select:none}
+.flash small{display:block;font:400 1rem "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--muted);margin-top:10px}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Geografia 🧭</h1><small>ripasso per l’interrogazione</small></div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main id="main"></main>
+<script>
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const row=(...b)=>{const r=el('div','row');r.append(...b);return r};
+const PRAISE=['Giusto! 🎉','Bravissima! 👏','Esatto! ⭐','Perfetto! 💪'];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* helper per scrivere le domande */
+const mc=(q,giusta,sbagliate,ex)=>({t:'mc',q,opts:[giusta,...sbagliate],a:0,ex});
+const tf=(q,a,ex)=>({t:'tf',q,a,ex});
+const fi=(q,a,ex,bank)=>({t:'fill',q,a,ex,bank});
+const op=(q,model,keys)=>({t:'open',q,model,keys});
+const ma=(q,pairs)=>({t:'match',q,pairs});
+const egg=(q,giusta,sbagliate,si,no)=>({t:'mc',q,opts:[giusta,...sbagliate],a:0,egg:true,si,no});
+
+/* ---------- CONTENUTI ---------- */
+const SECTIONS=[
+{id:'ori',tab:'🧭 Orientarsi',intro:'Orientamento, punti cardinali e bussola (pagine 10-13).',items:[
+ mc('Che cos’è l’orientamento?','La capacità di capire dove ci si trova, cioè conoscere la propria posizione',['Lo studio delle stelle','La capacità di disegnare una carta','Un tipo di bussola']),
+ fi('Orientarsi significa letteralmente “trovare l’___”, cioè l’___.',[['Oriente'],['Est']]),
+ mc('Perché “Oriente”? Che cosa vuol dire in latino?','“Sorgente”: è il punto in cui sorge il Sole',['“Freddo”: è il punto più freddo','“Mare”: è dove c’è il mare','“Montagna”: è dove ci sono i monti']),
+ tf('È il Sole che gira intorno alla Terra.',false,'Il Sole sembra muoversi, ma è un moto apparente: è la Terra che gira.'),
+ mc('Che cosa sono i punti di riferimento?','Elementi ben visibili e riconoscibili, che si ricordano facilmente',['Le linee del reticolo','Solo i cartelli stradali','I numeri sulle carte']),
+ ma('Naturale, artificiale o non è un punto di riferimento?',[['Fiume','Naturale'],['Montagna','Naturale'],['Mare','Naturale'],['Chiesa','Artificiale'],['Monumento','Artificiale'],['Cartello stradale','Artificiale'],['Automobile','Non è un punto di riferimento'],['Nuvola','Non è un punto di riferimento']]),
+ mc('Quali limiti hanno i punti di riferimento naturali e artificiali?','Quelli naturali possono cambiare nel tempo; quelli artificiali sono utili in città ma meno fuori',['Nessun limite','Funzionano solo di notte','Funzionano solo al mare']),
+ egg('Chi è il più bravo del mondo a cucinare?','Il papà di Zoe',['Carlo Cracco','Antonino Cannavacciuolo'],'Ovvio! Lo sanno tutti. 👨‍🍳⭐⭐⭐','Mmm… sicura? Ripensaci bene. 🤨👨‍🍳'),
+ mc('Quali sono i quattro punti cardinali?','Nord, Sud, Est, Ovest',['Nord, Sud, Alto, Basso','Destra, sinistra, avanti, dietro','Equatore, Tropici, Poli, Greenwich']),
+ tf('All’opposto del Nord c’è l’Est.',false,'All’opposto del Nord c’è il Sud; all’opposto dell’Est c’è l’Ovest.'),
+ ma('Abbina ogni punto cardinale ai suoi sinonimi.',[['Nord','Settentrione'],['Sud','Meridione o Mezzogiorno'],['Est','Oriente o Levante'],['Ovest','Occidente o Ponente']]),
+ mc('Di giorno, dove si trova l’Est?','Nel punto in cui sorge il Sole',['Nel punto in cui tramonta il Sole','Dove c’è il muschio','Sempre a destra']),
+ mc('Di notte, nell’emisfero settentrionale, che cosa indica il Nord?','La Stella Polare',['La Luna','Il Sole','La Stella del mattino']),
+ fi('L’emisfero ___ è la parte di Terra in cui viviamo.',[['settentrionale','nord','boreale']]),
+ mc('Il muschio indica il Nord?','Tende a crescere di più sul lato nord del tronco, ma non è sempre affidabile',['Sì, sempre e con precisione','No, cresce solo sul lato sud','Il muschio indica l’Est']),
+ mc('Che cos’è la bussola?','Uno strumento che permette di orientarsi in ogni situazione',['Una carta geografica','Un orologio','Un tipo di stella']),
+ mc('Grazie a che cosa funziona la bussola?','Al magnetismo terrestre: la Terra si comporta come un’enorme calamita',['Alla luce del Sole','Al vento','Alla Stella Polare']),
+ fi('La bussola è formata da un ___ magnetizzato montato su un ___, cioè un appoggio fisso.',[['ago'],['perno']]),
+ mc('Verso dove punta sempre l’ago della bussola?','Il Nord magnetico',['Il Nord geografico','Il Sud','L’Est']),
+ tf('Il Nord magnetico e il Nord geografico coincidono.',false,'Non coincidono: per questo la bussola non è del tutto precisa.'),
+ tf('Più ci si avvicina al Polo Nord, più la bussola diventa precisa.',false,'Al contrario: vicino al Nord geografico diventa più approssimativa.'),
+ mc('Perché in alcune bussole l’ago è immerso in un liquido?','Per eliminare il più possibile l’attrito tra aria, perno e ago',['Per farla galleggiare','Per illuminarla','Per farla funzionare sott’acqua']),
+ mc('Chi inventò la bussola?','Gli antichi Cinesi, intorno all’anno Mille',['I Romani','I Greci, nel 500 a.C.','Mercatore']),
+ fi('Il nome “bussola” deriva dal ___, una pianta il cui legno si usava per costruire le custodie.',[['bosso']]),
+ mc('Sulla bussola c’è una W. Che cosa indica?','Ovest (in inglese West)',['Nord','Acqua','Vento']),
+ op('Spiega come funziona una bussola.','La bussola funziona grazie al magnetismo terrestre: la Terra si comporta come un’enorme calamita. È formata da un ago magnetizzato, montato su un perno, che gira liberamente e punta sempre verso il Nord magnetico. Sotto c’è un quadrante graduato. Non è del tutto precisa, perché il Nord magnetico non coincide con il Nord geografico.',['magnetismo terrestre','ago magnetizzato e perno','Nord magnetico','quadrante','non coincide col Nord geografico']),
+ op('Come si trovano i punti cardinali di giorno e di notte?','Di giorno l’Est è il punto in cui sorge il Sole e l’Ovest quello in cui tramonta; poi si trovano Nord e Sud. Di notte, nell’emisfero settentrionale, la Stella Polare indica sempre il Nord.',['Sole: Est e Ovest','Stella Polare: Nord'])
+]},
+{id:'ret',tab:'🌐 Reticolo e coordinate',intro:'Paralleli, meridiani, movimenti della Terra e coordinate (pagine 16-19).',items:[
+ mc('Che cos’è il reticolo geografico?','Una griglia di linee curve immaginarie (paralleli e meridiani) che avvolge la Terra',['Una rete di strade','Una carta stradale','Un tipo di bussola']),
+ fi('L’Equatore è la massima circonferenza immaginaria della Terra: misura ___ km.',[['40076','40.076']]),
+ mc('In quali emisferi l’Equatore divide la Terra?','Settentrionale (boreale) e meridionale (australe)',['Orientale e occidentale','Artico e antartico','Alto e basso']),
+ mc('L’emisfero meridionale si chiama anche…','australe',['boreale','artico','tropicale']),
+ mc('Che cosa sono i paralleli?','Circonferenze che non si toccano mai, perché parallele tra loro',['Semicirconferenze da un polo all’altro','Linee che si incrociano al centro','Strade parallele']),
+ fi('I paralleli sono ___ (90 per emisfero), più l’Equatore, detto parallelo ___.',[['180'],['0','zero']]),
+ ma('In quale emisfero si trovano questi paralleli?',[['Circolo Polare Artico','Emisfero nord'],['Tropico del Cancro','Emisfero nord'],['Tropico del Capricorno','Emisfero sud'],['Circolo Polare Antartico','Emisfero sud']]),
+ tf('Allontanandosi dall’Equatore, i paralleli diventano sempre più grandi.',false,'Diventano sempre più piccoli, fino a diventare punti ai Poli.'),
+ mc('Che cosa sono il 90° parallelo nord e il 90° parallelo sud?','Due punti: il Polo Nord e il Polo Sud',['Due grandi circonferenze','I Tropici','L’Equatore']),
+ mc('Che cos’è l’asse terrestre?','La linea immaginaria che passa per i Poli, intorno alla quale la Terra ruota',['Il meridiano di Greenwich','L’Equatore','Una sbarra di ferro a Greenwich']),
+ mc('Che cosa sono i meridiani?','Semicirconferenze che vanno da un polo all’altro',['Circonferenze che non si toccano mai','Linee orizzontali','I confini degli Stati']),
+ fi('I meridiani sono ___, come i gradi dell’angolo giro.',[['360']]),
+ mc('Perché si chiamano “meridiani”?','Da meridies, “mezzogiorno”: sullo stesso meridiano il mezzogiorno scatta nello stesso istante',['Perché sono nel Sud','Perché li ha inventati Meridio','Perché sono a metà della Terra']),
+ fi('Nel ___ si stabilì che il meridiano 0 fosse quello di ___, vicino a Londra.',[['1884'],['Greenwich']]),
+ fi('Il meridiano opposto a Greenwich (180°) si chiama ___.',[['antimeridiano']]),
+ ma('Paralleli o meridiani?',[['Sono 180 più l’Equatore','Paralleli'],['Sono 360','Meridiani'],['Sono circonferenze','Paralleli'],['Sono semicirconferenze','Meridiani'],['Hanno lunghezze diverse','Paralleli'],['Hanno tutti la stessa lunghezza','Meridiani']]),
+ ma('Abbina ogni movimento della Terra.',[['Rotazione','Gira su sé stessa in circa 24 ore'],['Rivoluzione','Gira intorno al Sole in circa 365 giorni']]),
+ tf('La Terra è perfettamente sferica.',false,'È leggermente schiacciata ai due Poli.'),
+ fi('Il percorso della Terra intorno al Sole non è un cerchio perfetto ma un’___.',[['ellisse']]),
+ tf('Ai Poli, per sei mesi il Sole non tramonta mai e per altri sei non sorge mai.',true),
+ mc('Che cos’è la latitudine?','La distanza di un punto dall’Equatore, verso nord o verso sud',['La distanza da Greenwich','L’altezza di una montagna','La larghezza di un fiume']),
+ mc('Che cos’è la longitudine?','La distanza di un punto dal meridiano di Greenwich, verso est o verso ovest',['La distanza dall’Equatore','La lunghezza di un fiume','La distanza dal Polo Nord']),
+ fi('Latitudine e longitudine insieme sono le coordinate ___.',[['geografiche']]),
+ ma('Da quale parola latina vengono?',[['Latitudine','latus, “largo”'],['Longitudine','longus, “lungo”']]),
+ mc('Con che cosa si misurano le coordinate?','In gradi (°), perché paralleli e meridiani sono linee curve',['In metri','In chilometri','In ore']),
+ fi('La latitudine va da 0° a ___°, la longitudine da 0° a ___°.',[['90'],['180']]),
+ tf('Di solito si scrive prima la longitudine e poi la latitudine.',false,'Prima la latitudine, poi la longitudine.'),
+ mc('Che cosa vuol dire 40°N, 12°E?','Quarantesimo parallelo nord e dodicesimo meridiano est di Greenwich',['Quaranta chilometri a nord e dodici a est','Dodicesimo parallelo e quarantesimo meridiano','Quaranta gradi di temperatura']),
+ mc('Un punto è 30° a sud dell’Equatore e 30° a est di Greenwich. Quali sono le sue coordinate?','30°S, 30°E',['30°S, 30°O','30°N, 30°E','30°N, 30°O'],'Attenzione: est di Greenwich si scrive E, non O!'),
+ fi('Ogni grado è diviso in 60 ___ e ogni primo in 60 ___.',[['primi'],['secondi']]),
+ tf('L’Ecuador prende il nome dall’Equatore, che lo attraversa.',true),
+ op('Che differenza c’è tra paralleli e meridiani?','I paralleli sono circonferenze orizzontali che non si toccano mai: sono 180 più l’Equatore (parallelo 0) e diventano più piccoli verso i Poli. I meridiani sono semicirconferenze verticali da un polo all’altro: sono 360, hanno tutti la stessa lunghezza e il meridiano 0 è quello di Greenwich.',['paralleli: circonferenze, 180 + Equatore','meridiani: semicirconferenze, 360','Equatore e Greenwich']),
+ op('Che cosa sono latitudine e longitudine?','La latitudine è la distanza di un punto dall’Equatore (nord o sud, da 0° a 90°). La longitudine è la distanza dal meridiano di Greenwich (est o ovest, da 0° a 180°). Insieme formano le coordinate geografiche e si misurano in gradi.',['distanza dall’Equatore','distanza da Greenwich','gradi','coordinate geografiche']),
+ op('Quali sono i movimenti della Terra?','La rotazione: la Terra gira su sé stessa in circa 24 ore, in senso antiorario. La rivoluzione: gira intorno al Sole in circa 365 giorni, lungo un’ellisse, con l’asse sempre inclinato.',['rotazione 24 ore','rivoluzione 365 giorni','ellisse'])
+]},
+{id:'fus',tab:'🕐 Fusi orari',intro:'Fusi orari, ora legale e linea del cambiamento di data (pagine 22-25).',items:[
+ mc('Perché il Sole non illumina tutta la Terra nello stesso momento?','Per il moto di rotazione della Terra',['Perché il Sole è piccolo','Per le nuvole','Per il moto di rivoluzione']),
+ mc('Chi si alza per primo la mattina?','Gli abitanti dell’Asia (gli ultimi sono quelli dell’America)',['Gli abitanti dell’America','Gli abitanti dell’Europa','Tutti insieme']),
+ tf('Quando a Torino è ancora giorno, a Lecce è già sera.',true,'Lecce è più a est di Torino.'),
+ mc('Un tempo, come si stabiliva l’ora?','Ogni comune aveva la sua ora, regolata sul mezzogiorno',['C’era un’unica ora mondiale','La decideva il re','Si usava la bussola']),
+ fi('Nella meridiana l’ora è indicata dall’ombra di un bastoncino chiamato ___.',[['gnomone']]),
+ mc('Quale Paese è chiamato “il Paese del Sol Levante”?','Il Giappone',['La Cina','L’India','L’Australia']),
+ mc('Perché alla fine dell’Ottocento servì un modo comune di calcolare l’ora?','Navi e treni cominciarono a viaggiare regolarmente tra Paesi diversi',['Furono inventati i cellulari','Il Sole cambiò orbita','Lo chiese il papa']),
+ fi('Nel ___ si decise di adottare il sistema dei fusi orari.',[['1884']]),
+ fi('La Terra fu divisa in ___ spicchi, perché la rotazione dura ___ ore.',[['24'],['24']]),
+ mc('Che cos’è una convenzione?','Un accordo tra due o più parti per stabilire un criterio comune',['Una legge della natura','Una festa','Un tipo di orologio']),
+ egg('Qual è la squadra da tifare per non essere bocciati?','Inter',['Victor Rho','Juventus'],'Risposta perfetta: promossa con lode! 🖤💙','Risposta pericolosissima… rischi la bocciatura! 😱'),
+ ma('Viaggiando, come si sposta l’orologio?',[['Verso est','Si aggiunge un’ora per ogni fuso'],['Verso ovest','Si toglie un’ora per ogni fuso']]),
+ mc('Nel tuo fuso sono le 10:30. Che ore sono nel fuso subito a est?','11:30',['9:30','10:30','12:30']),
+ mc('Nel tuo fuso sono le 10:30. Che ore sono nel fuso subito a ovest?','9:30',['11:30','10:00','8:30']),
+ mc('Quando a Roma sono le 10:00, a New York sono le 4:00. Quante ore di differenza ci sono?','6 ore',['4 ore','10 ore','2 ore']),
+ mc('Perché ogni fuso orario misura 15°?','Perché 360° (l’Equatore) diviso 24 fa 15',['Perché ci sono 15 Stati per fuso','Perché lo ha deciso Greenwich','Perché un’ora ha 15 minuti']),
+ fi('Problema: l’Equatore misura 40 076 km. Diviso 24 fusi, ogni fuso è largo al massimo circa ___ km.',[['1670','1669','1669,8','1669.8','1669,83','1669.83']]),
+ mc('Qual è il fuso orario di riferimento?','Quello in cui passa il meridiano di Greenwich',['Quello di Roma','Quello di Pechino','Quello di New York']),
+ tf('I fusi orari sono 360, esattamente quanti sono i meridiani.',false,'I fusi orari sono 24. I meridiani sono 360.'),
+ tf('I fusi orari seguono il più possibile il confine degli Stati.',true),
+ tf('Quando scatta l’ora legale si sposta l’orologio indietro di un’ora.',false,'Si sposta AVANTI di un’ora.'),
+ tf('Viaggiando verso est si sposta avanti di un’ora l’orologio per ogni fuso che si attraversa.',true),
+ mc('Perché esiste l’ora legale?','Per sfruttare di più la luce del giorno e risparmiare circa un’ora di consumo elettrico alla sera',['Per dormire di più','Per seguire la Luna','Perché d’estate le giornate sono più corte']),
+ fi('L’ora legale scatta a fine ___ e resta fino all’ultima domenica di ___.',[['marzo'],['ottobre']]),
+ mc('Che cos’è la linea del cambiamento di data?','L’antimeridiano di Greenwich: da lì si comincia a calcolare la mezzanotte del nuovo giorno',['Il meridiano di Greenwich','L’Equatore','Il confine tra Europa e Asia']),
+ mc('Attraversi la linea del cambiamento di data andando dall’Asia verso l’America. Che cosa succede?','Torni indietro di un giorno',['Salti un giorno','Non succede niente','Perdi un’ora']),
+ mc('Attraversi la linea del cambiamento di data andando dall’America verso l’Asia. Che cosa succede?','Salti un giorno e sei nella giornata successiva',['Torni indietro di un giorno','Non succede niente','Guadagni un’ora']),
+ mc('Perché la Russia ha più fusi orari al suo interno?','Perché gli Stati molto grandi hanno per forza diversi fusi orari',['Perché lo ha deciso il governo russo per gioco','Perché è vicina al Polo','Perché non usa i fusi']),
+ tf('All’interno dello stesso fuso orario, il Sole sorge alla stessa ora in tutti i luoghi.',false,'È una convenzione: tra i luoghi ai confini dello stesso fuso il Sole può sorgere fino a 59 minuti di differenza.'),
+ op('Che cosa sono i fusi orari e perché sono stati introdotti?','Sono i 24 spicchi in cui è divisa la Terra, uno per ogni ora della rotazione: dentro ogni spicchio c’è, per convenzione, la stessa ora. Furono adottati nel 1884, quando navi e treni cominciarono a viaggiare regolarmente tra Paesi e serviva un modo comune di calcolare l’ora. Il fuso di riferimento è quello di Greenwich.',['24 spicchi','stessa ora per convenzione','1884','navi e treni','Greenwich']),
+ op('Che cos’è l’ora legale?','Per sei mesi, in primavera e in estate, si sposta l’orologio avanti di un’ora rispetto all’ora solare. Così si sfrutta di più la luce del giorno e si risparmia circa un’ora di consumo elettrico la sera. Scatta a fine marzo e dura fino all’ultima domenica di ottobre.',['avanti di un’ora','primavera ed estate','sfruttare la luce','risparmio di energia']),
+ op('Che cos’è la linea del cambiamento di data?','È l’antimeridiano di Greenwich, da cui si comincia a calcolare la mezzanotte del nuovo giorno. Se la attraversi dall’Asia verso l’America torni indietro di un giorno; se la attraversi dall’America verso l’Asia salti un giorno.',['antimeridiano','mezzanotte del nuovo giorno','indietro o avanti di un giorno'])
+]},
+{id:'car',tab:'🗺️ Carte geografiche',intro:'Cartografia, proiezioni e caratteristiche delle carte (pagine 28-32).',items:[
+ mc('Che cos’è la cartografia?','La parte della geografia che realizza le carte geografiche',['Lo studio delle carte da gioco','L’arte di fare quaderni','La scienza del clima']),
+ mc('Che cosa sono le carte geografiche?','Rappresentazioni grafiche della superficie terrestre (o di una parte) su una superficie piana',['Fotografie della Terra','Mappamondi di plastica','Elenchi di città']),
+ mc('Che cos’è la proiezione cartografica?','La tecnica per riportare su un piano la superficie curva della Terra',['Un film sulla Terra','Una lampada','Un tipo di bussola']),
+ tf('È possibile disegnare la Terra su un foglio senza deformazioni.',false,'È impossibile: ci sono sempre delle deformazioni.'),
+ ma('Che cosa mantiene esatto ogni proiezione?',[['Proiezione equivalente','Le proporzioni (aree) tra i continenti'],['Proiezione equidistante','Le distanze'],['Proiezione conforme','Gli angoli (direzioni e forme)']]),
+ tf('Esiste una proiezione che mantiene esatte aree, distanze e angoli insieme.',false,'Nessuna proiezione può avere tutte e tre le caratteristiche.'),
+ ma('Abbina ogni carta o studioso alla sua proiezione.',[['Carta di Peters (1973)','Equivalente'],['Al-Biruni (1000 circa)','Equidistante'],['Carta di Mercatore (1569)','Conforme']]),
+ mc('Qual è il difetto della carta di Mercatore?','Le aree vicino ai Poli si allargano molto',['Le direzioni sono sbagliate','Non ha i meridiani','È solo in bianco e nero'],'Però era ottima per navigare con la bussola.'),
+ mc('Perché in Cina il mondo è disegnato con la Cina al centro?','Il nome Cina significa “regno di mezzo”: dipende dal punto di vista',['Perché la Cina è il Paese più grande','Perché lo ha deciso Mercatore','Per sbaglio']),
+ mc('Che cos’è il “mondo capovolto”?','Un planisfero visto dall’emisfero sud, con l’Australia al centro e in alto',['Una carta stampata male','Una carta del fondo del mare','Una carta della Luna']),
+ mc('Qual è la rappresentazione più “obiettiva” della Terra?','Il globo',['La carta di Mercatore','La carta di Peters','La pianta della città']),
+ mc('Il termine “mappamondo” è anche sinonimo di…','planisfero, cioè carta che rappresenta tutto il mondo',['bussola','pianta','legenda']),
+ fi('Per convenzione le carte hanno il ___ in alto; l’Est è a ___ e l’Ovest a ___.',[['Nord'],['destra'],['sinistra']]),
+ fi('La proiezione cartografica è la ___ che serve a riportare su un ___ la superficie sferica del nostro pianeta. È impossibile farlo senza ___. L’unica rappresentazione più obiettiva è il ___.',[['tecnica'],['piano'],['deformazioni'],['globo']],null,['tecnica','piano','deformazioni','globo','ridotte','approssimate','simboliche']),
+ ma('Ogni carta è…',[['Ridotta','Rappresenta un territorio grande in uno spazio piccolo'],['Approssimata','Deforma il territorio e sceglie solo gli elementi utili'],['Simbolica','Usa simboli e colori, un linguaggio universale']]),
+ mc('Che cos’è la legenda?','Il riquadro che spiega il significato di simboli e colori della carta',['Una storia antica','Il titolo della carta','La scala della carta'],'Legenda viene dal latino e significa “da leggere”.'),
+ ma('Che cosa indica questo simbolo?',[['H','Ospedale'],['P','Parcheggio'],['Un alberello','Parco o giardino'],['Un carrello','Supermercato']]),
+ egg('Chi non fa mai niente in casa?','Zoe',['Lo sgabello in cucina','La pianta grassa sul terrazzo'],'Confessione registrata! 📝😂','No, no… lo sgabello almeno regge i piatti! 😏'),
+ ma('Nelle carte fisiche, che cosa indica ogni colore?',[['Marrone','Rilievi (montagne)'],['Giallo','Colline'],['Verde','Pianure'],['Blu','Acque']]),
+ tf('Più il marrone è scuro, più il rilievo è basso.',false,'Più il marrone è scuro, più il rilievo è ALTO. Più il blu è scuro, più l’acqua è profonda.'),
+ mc('Come si chiamano le tinte che indicano l’altitudine dei rilievi e la profondità dei fondali?','Tinte altimetriche e batimetriche',['Tinte calde e fredde','Tinte primarie','Tinte politiche']),
+ fi('Le linee immaginarie che uniscono punti alla stessa altitudine o profondità si chiamano curve di ___.',[['livello']]),
+ ma('Isoipse o isobate?',[['Isoipse','Uniscono i punti alla stessa altitudine sopra il livello del mare'],['Isobate','Uniscono i punti alla stessa profondità sotto il livello del mare']]),
+ mc('Sulla carta fisica dell’Italia, dove si trovano le montagne più alte?','Nel Nord',['Nel Centro','Nel Sud']),
+ mc('Come si chiama la pianura più estesa d’Italia?','Pianura Padana',['Tavoliere delle Puglie','Maremma','Valdarno']),
+ op('Perché si dice che ogni carta è ridotta, approssimata e simbolica?','È ridotta perché rappresenta un grande territorio in un piccolo spazio, con le stesse proporzioni. È approssimata perché deforma il territorio e sceglie solo gli elementi utili. È simbolica perché usa simboli e colori spiegati nella legenda.',['ridotta: rimpicciolita','approssimata: deformazioni e scelta','simbolica: simboli, colori, legenda']),
+ op('Quali tipi di proiezione esistono?','Le proiezioni equivalenti mantengono le proporzioni delle aree (es. carta di Peters); quelle equidistanti mantengono le distanze (es. Al-Biruni); quelle conformi mantengono angoli, direzioni e forme (es. carta di Mercatore). Nessuna proiezione può avere tutte e tre le caratteristiche.',['equivalenti: aree, Peters','equidistanti: distanze','conformi: angoli, Mercatore','nessuna le ha tutte'])
+]},
+{id:'sca',tab:'📏 Scala e tipi di carta',intro:'Scala di riduzione, carte in base alla scala e al contenuto (pagine 34-37).',items:[
+ mc('Che cos’è la scala di riduzione?','Il rapporto tra la grandezza del luogo sulla carta e la sua grandezza reale',['Una scala per salire in alto','Il numero di pagine dell’atlante','La legenda della carta']),
+ mc('Come può essere la scala di riduzione?','Numerica o grafica',['Grande o rotonda','Fisica o politica','Calda o fredda']),
+ fi('La scala 1 : 10 si legge “uno ___ dieci”: 1 cm sulla carta corrisponde a ___ cm nella realtà.',[['a'],['10','dieci']]),
+ mc('Che cosa vuol dire “carta a grande scala”?','Il luogo è poco rimpicciolito, quindi la carta è molto dettagliata',['La carta è stampata su un foglio grande','Il luogo è molto rimpicciolito','La carta rappresenta tutto il mondo']),
+ tf('Una scala 1 : 1 000 000 è una grande scala.',false,'È molto piccola: 1 diviso 1 000 000 fa 0,000001.'),
+ mc('Per disegnare la tua aula su un foglio, che scala useresti?','Una grande scala',['Una piccolissima scala','Una scala 1 : 1 000 000','Nessuna scala']),
+ mc('In una carta 1 : 25 000, 1 cm sulla carta corrisponde a…','250 metri',['25 metri','2,5 km','25 km']),
+ mc('In una carta 1 : 100 000, 1 cm sulla carta corrisponde a…','1 km',['100 metri','10 km','100 km']),
+ mc('Che cos’è la scala grafica?','Un segmento in cui ogni centimetro corrisponde a un certo numero di metri o chilometri',['Un grafico a torta','Una scala numerica scritta in lettere','Il disegno di una scala']),
+ mc('In una scala grafica ogni centimetro vale 250 km. Quanto valgono 2 cm?','500 km',['250 km','1000 km','2 km']),
+ tf('In una carta in scala 1 : 100, 100 centimetri nella realtà corrispondono a 1 centimetro sulla carta.',true),
+ tf('Una carta in scala 1 : 100 possiede soltanto la scala grafica.',false,'1 : 100 è una scala numerica.'),
+ tf('In una carta in scala 1 : 100 il territorio sulla carta è 100 volte più grande di quello reale.',false,'È il contrario: la realtà è 100 volte più grande della carta.'),
+ tf('La scala 1 : 100 si legge “uno diviso cento”.',false,'Si legge “uno a cento”.'),
+ ma('Abbina ogni tipo di carta alla sua scala.',[['Mappe e piante','Fino a 1 : 10 000'],['Carte topografiche','Tra 1 : 10 000 e 1 : 100 000'],['Carte corografiche','Tra 1 : 100 000 e 1 : 1 000 000'],['Carte geografiche','Oltre 1 : 1 000 000']]),
+ ma('Che carta useresti per…',[['Una casa o un quartiere','Pianta'],['Un’escursione vicino a una città','Carta topografica'],['Un viaggio in auto in una regione','Carta corografica (stradale)'],['Vedere Stati e continenti','Carta geografica']]),
+ tf('Mappe e piante sono le carte più precise e dettagliate.',true),
+ ma('Carte in base al contenuto: che cosa rappresentano?',[['Carte fisiche','Elementi naturali: montagne, pianure, mari, fiumi'],['Carte politiche','Organizzazione del territorio: Stati, confini, regioni, città'],['Carte tematiche','La distribuzione di un fenomeno particolare'],['Carte geostoriche','Un evento storico o un territorio nel passato']]),
+ mc('Una carta politica che riporta anche informazioni fisiche si chiama…','carta fisico-politica',['carta tematica','carta geostorica','pianta']),
+ tf('Nella realtà tutte le pianure sono verdi e tutte le montagne marroni.',false,'I colori sono una convenzione: non corrispondono sempre alla realtà.'),
+ tf('Le carte stradali, nautiche e aeronautiche sono carte tematiche.',true),
+ mc('Nella carta della densità di popolazione della Toscana, che cosa indica il rosso più marcato?','Che lì vivono più persone (densità più alta)',['Che lì fa più caldo','Che ci sono più montagne','Che ci sono più fiumi']),
+ ma('Che tipo di carta useresti per…',[['Scoprire la capitale della Spagna','Politica'],['Conoscere la cima più alta delle Alpi','Fisica'],['Sapere qual è l’industria più sviluppata in Italia','Tematica'],['Scoprire quante regioni ha l’Italia','Politica'],['Conoscere il fiume della Pianura Padana','Fisica'],['Sapere quali popoli invasero l’Impero romano','Geostorica']]),
+ op('Che cos’è la scala di riduzione e come può essere?','È il rapporto tra la grandezza di un luogo sulla carta e la sua grandezza reale. Può essere numerica, ad esempio 1 : 10 (1 cm sulla carta = 10 cm nella realtà), oppure grafica, cioè un segmento in cui ogni centimetro vale un certo numero di metri o chilometri.',['rapporto carta/realtà','numerica: 1 : 10','grafica: segmento']),
+ op('Come si classificano le carte in base alla scala?','Mappe e piante (fino a 1 : 10 000) per piccoli spazi come una casa o un quartiere; carte topografiche (1 : 10 000 – 1 : 100 000) per città o distretti; carte corografiche (1 : 100 000 – 1 : 1 000 000) per regioni, come le carte stradali; carte geografiche (oltre 1 : 1 000 000) per Stati e continenti.',['mappe e piante','topografiche','corografiche','geografiche']),
+ op('Come si classificano le carte in base al contenuto?','Carte fisiche: elementi naturali come montagne, pianure, mari e fiumi. Carte politiche: organizzazione del territorio fatta dall’uomo, con Stati, confini, regioni, città e vie di comunicazione. Carte tematiche: la distribuzione di un fenomeno, come popolazione, clima o strade.',['fisiche','politiche','tematiche'])
+]}
+];
+
+const CARDS=[
+['Orientarsi','Trovare l’Oriente, cioè l’Est'],['Punti di riferimento','Elementi ben visibili e riconoscibili'],['Settentrione','Nord'],['Meridione o Mezzogiorno','Sud'],
+['Oriente o Levante','Est'],['Occidente o Ponente','Ovest'],['Stella Polare','Di notte indica il Nord'],['Magnetismo terrestre','La Terra si comporta come un’enorme calamita'],
+['Nord magnetico','Dove punta l’ago della bussola (non è il Nord geografico)'],['Bosso','Pianta da cui viene il nome “bussola”'],
+['Reticolo geografico','Griglia di paralleli e meridiani'],['Equatore','Parallelo 0, la circonferenza più grande (40 076 km)'],['Paralleli','180 circonferenze + l’Equatore'],
+['Meridiani','360 semicirconferenze da polo a polo'],['Greenwich','Meridiano 0, vicino a Londra (1884)'],['Antimeridiano','Meridiano 180°, linea del cambiamento di data'],
+['Asse terrestre','Linea immaginaria che passa per i Poli'],['Boreale','Emisfero settentrionale'],['Australe','Emisfero meridionale'],
+['Rotazione','La Terra gira su sé stessa in circa 24 ore'],['Rivoluzione','La Terra gira intorno al Sole in circa 365 giorni'],['Ellisse','Forma del percorso della Terra intorno al Sole'],
+['Latitudine','Distanza dall’Equatore (N o S, da 0° a 90°)'],['Longitudine','Distanza da Greenwich (E o O, da 0° a 180°)'],['Primi e secondi','Sottomultipli del grado (60 e 60)'],
+['Fusi orari','24 spicchi, ognuno di 15°, con la stessa ora'],['Gnomone','Bastoncino della meridiana'],['Convenzione','Accordo per stabilire un criterio comune'],
+['Ora legale','Orologio avanti di un’ora, da fine marzo a fine ottobre'],['Cartografia','Parte della geografia che realizza le carte'],
+['Proiezione cartografica','Tecnica per riportare la Terra su un piano'],['Proiezione equivalente','Mantiene le aree (es. Peters)'],['Proiezione equidistante','Mantiene le distanze (es. Al-Biruni)'],
+['Proiezione conforme','Mantiene angoli e forme (es. Mercatore)'],['Globo','La rappresentazione più obiettiva della Terra'],['Planisfero','Carta che rappresenta tutto il mondo'],
+['Legenda','Spiega simboli e colori (“da leggere”)'],['Isoipse','Curve di livello alla stessa altitudine'],['Isobate','Curve di livello alla stessa profondità'],
+['Scala di riduzione','Rapporto tra grandezza sulla carta e grandezza reale'],['1 : 100 000','1 cm sulla carta = 1 km'],['Mappe e piante','Fino a 1 : 10 000'],
+['Carte topografiche','Da 1 : 10 000 a 1 : 100 000'],['Carte corografiche','Da 1 : 100 000 a 1 : 1 000 000'],['Carte geografiche','Oltre 1 : 1 000 000'],
+['Carta fisica','Elementi naturali'],['Carta politica','Stati, confini, regioni, città'],['Carta tematica','Distribuzione di un fenomeno'],['Carta geostorica','Geografia + storia']
+].map(([f,b])=>({f,b}));
+
+/* ---------- MOTORE ---------- */
+const TYPE={mc:'Crocetta',tf:'Vero o falso',fill:'Completa',match:'Abbina',order:'Metti in ordine',open:'Domanda aperta'};
+
+function renderItem(it,n,record){
+  const c=el('div','card');
+  c.append(el('span','qn',`${n} · ${TYPE[it.t]}`));
+  const fb=el('div','fb');
+  const q=t=>c.append(el('div','q',t));
+  const done=(ok,msg)=>{fb.className='fb '+(ok?'okm':'badm');fb.innerHTML=(ok?'✅ ':'❌ ')+(msg||(ok?pick(PRAISE):'Non proprio.'));record(ok)};
+
+  if(it.t==='mc'||it.t==='tf'){
+    const opts=it.t==='tf'?['Vero','Falso']:shuffle(it.opts);
+    const ans=it.t==='tf'?(it.a?'Vero':'Falso'):it.opts[it.a];
+    q(it.q);const box=el('div','opts');
+    opts.forEach(o=>{const b=el('button','opt');b.textContent=o;b.onclick=()=>{
+      [...box.children].forEach(x=>{x.disabled=true;if(x.textContent===ans)x.classList.add('ok')});
+      const ok=o===ans;if(!ok)b.classList.add('bad');
+      if(it.egg)return done(ok,ok?it.si:it.no+' La risposta giusta è: <b>'+ans+'</b>.');
+      done(ok,(ok?pick(PRAISE)+' ':'La risposta giusta è: <b>'+ans+'</b>. ')+(it.ex||''));
+    };box.append(b)});
+    c.append(box);
+  }
+
+  if(it.t==='fill'){
+    q('Completa.');
+    const p=el('div','fill');const ins=[];let last=null;
+    const parts=it.q.split('___');
+    parts.forEach((t,i)=>{p.append(document.createTextNode(t));if(i<parts.length-1){const x=document.createElement('input');x.setAttribute('autocapitalize','off');x.autocomplete='off';x.spellcheck=false;x.onfocus=()=>{last=x};ins.push(x);p.append(x)}});
+    c.append(p);
+    if(it.bank){const bk=el('div','bank');shuffle(it.bank).forEach(w=>{const ch=el('button','chip');ch.textContent=w;ch.onclick=()=>{
+      const t=(last&&!last.value&&!last.disabled)?last:ins.find(x=>!x.value&&!x.disabled);
+      if(t){t.value=w;last=ins.find(x=>!x.value)||null}
+    };bk.append(ch)});c.append(bk)}
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{
+      let all=true;
+      ins.forEach((x,i)=>{
+        const v=norm(x.value);const ok=v&&it.a[i].some(s=>norm(s)===v);
+        x.disabled=true;x.classList.add(ok?'ok':'bad');
+        if(!ok){all=false;x.insertAdjacentHTML('afterend',`<span class="fix">→ ${it.a[i][0]}</span>`)}
+      });
+      chk.remove();done(all,all?pick(PRAISE)+(it.ex?' '+it.ex:''):'Guarda le parole in verde. '+(it.ex||''));
+    };
+    c.append(row(chk));
+  }
+
+  if(it.t==='match'){
+    q(it.q);
+    const rights=shuffle([...new Set(it.pairs.map(p=>p[1]))]);
+    const sels=shuffle(it.pairs).map(([l,r])=>{
+      const w=el('div','mrow');w.append(el('b',null,l));
+      const s=document.createElement('select');s.setAttribute('aria-label',l);
+      s.innerHTML='<option value="">scegli…</option>'+rights.map(o=>`<option>${o}</option>`).join('');
+      w.append(s);c.append(w);return {s,r,w}});
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{let all=true;sels.forEach(({s,r,w})=>{const ok=s.value===r;s.disabled=true;s.classList.add(ok?'ok':'bad');if(!ok){all=false;w.append(el('span','fix','→ '+r))}});chk.remove();done(all,all?pick(PRAISE):'Guarda le risposte in verde.')};
+    c.append(row(chk));
+  }
+
+  if(it.t==='open'){
+    q(it.q);const ta=document.createElement('textarea');ta.placeholder='Rispondi a voce, come all’interrogazione (o scrivi qui)…';c.append(ta);
+    const show=el('button','btn','Mostra la risposta modello');c.append(row(show));
+    show.onclick=()=>{
+      show.parentNode.remove();
+      c.insertBefore(el('div','model','<b>Risposta modello</b><br>'+it.model+(it.keys?'<br><br><b>Parole chiave da dire:</b> '+it.keys.join('; '):'')),fb);
+      const y=el('button','btn','✓ Ho detto i concetti chiave'),nn=el('button','btn soft','✗ Non ancora');const r2=row(y,nn);c.insertBefore(r2,fb);
+      y.onclick=()=>{r2.remove();done(true,'Ottimo, pronta per l’interrogazione!')};
+      nn.onclick=()=>{r2.remove();done(false,'Rileggi la risposta modello e ripetila a voce alta, con parole tue.')};
+    };
+  }
+  c.append(fb);return c;
+}
+
+function practice(m,intro,items,restart){
+  m.innerHTML='';m.append(el('p','intro',intro));
+  const res={};const bars=[];
+  const mkBar=()=>{
+    const b=el('div','scorebar',`<div class="sc"></div><div class="row"><button class="btn soft rs">↻ Ricomincia</button><button class="btn rt">Rifai gli errori</button></div>`);
+    const upd=()=>{
+      const v=Object.values(res),ok=v.filter(Boolean).length,wrong=v.length-ok,left=items.length-v.length;
+      b.querySelector('.sc').innerHTML=`✅ <b>${ok}</b> &nbsp; ❌ <b>${wrong}</b> &nbsp; ${left?'mancano '+left:(wrong?'Finito!':'Tutto giusto! 🎉')}`;
+      b.querySelector('.rt').disabled=!wrong;
+    };
+    b.querySelector('.rs').onclick=()=>{restart();scrollTo(0,0)};
+    b.querySelector('.rt').onclick=()=>{const w=items.filter(it=>res[it.uid]===false);practice(m,'Riproviamo le domande sbagliate 💪',w,restart);scrollTo(0,0)};
+    bars.push(upd);upd();return b;
+  };
+  m.append(mkBar());
+  items.forEach((it,i)=>m.append(renderItem(it,i+1,ok=>{res[it.uid]=ok;bars.forEach(f=>f())})));
+  m.append(mkBar());
+}
+
+function renderFlash(m){
+  let rev=false,deck=shuffle(CARDS),known=0,flipped=false;
+  m.innerHTML=`<p class="intro">Parole chiave. Prova a spiegarle a voce, poi tocca la carta per girarla.</p>
+  <div class="row" style="margin:0 0 12px"><button class="btn soft" id="dir"></button><button class="btn soft" id="fr">↻ Mescola</button></div>
+  <div class="card flash" id="fc" role="button" tabindex="0"></div>
+  <div class="row"><button class="btn soft" id="ag">↻ La rivedo dopo</button><button class="btn" id="kn">✓ La so</button></div>
+  <p class="intro" id="fcount" style="margin-top:12px"></p>`;
+  const draw=()=>{
+    $('#dir').textContent=rev?'Davanti: spiegazione':'Davanti: parola';
+    if(!deck.length){$('#fc').innerHTML='<div>🎉 Finite!<small>Tocca “Mescola” per ricominciare</small></div>';$('#fcount').textContent='';return}
+    const w=deck[0],front=rev?w.b:w.f,back=rev?w.f:w.b;
+    $('#fc').innerHTML=flipped?`<div>${back}</div>`:`<div>${front}<small>tocca per girare</small></div>`;
+    $('#fcount').textContent=`Carte rimaste: ${deck.length} · già sapute: ${known}`;
+  };
+  const flip=()=>{flipped=!flipped;draw()};
+  $('#fc').onclick=flip;$('#fc').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
+  $('#kn').onclick=()=>{if(!deck.length)return;deck.shift();known++;flipped=false;draw()};
+  $('#ag').onclick=()=>{if(!deck.length)return;deck.push(deck.shift());flipped=false;draw()};
+  $('#dir').onclick=()=>{rev=!rev;flipped=false;draw()};
+  $('#fr').onclick=()=>{deck=shuffle(CARDS);known=0;flipped=false;draw()};
+  draw();
+}
+
+const ALL=()=>SECTIONS.flatMap(s=>s.items.map((it,i)=>({...it,uid:s.id+i})));
+function renderOral(m){
+  practice(m,'🎤 Simulazione di interrogazione: 6 domande a caso. Rispondi a voce, come se fossi davanti alla prof, poi guarda la risposta modello.',shuffle(ALL().filter(it=>it.t==='open')).slice(0,6),()=>renderOral(m));
+}
+function renderMix(m){
+  practice(m,'🎯 Ripasso misto: 15 domande a caso da tutti i capitoli.',shuffle(ALL().filter(it=>it.t!=='open')).slice(0,15),()=>renderMix(m));
+}
+
+const TABS=[...SECTIONS.map(s=>({id:s.id,label:s.tab})),{id:'oral',label:'🎤 Interrogazione'},{id:'mix',label:'🎯 Ripasso misto'},{id:'flash',label:'🃏 Carte'}];
+function go(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.id===id));
+  const m=$('#main');
+  if(id==='flash')return renderFlash(m);
+  if(id==='mix')return renderMix(m);
+  if(id==='oral')return renderOral(m);
+  const s=SECTIONS.find(x=>x.id===id);
+  practice(m,s.intro,s.items.map((it,i)=>({...it,uid:id+i})),()=>go(id));
+}
+TABS.forEach(t=>{const b=el('button','tab');b.textContent=t.label;b.dataset.id=t.id;b.onclick=()=>{go(t.id);scrollTo(0,0)};$('#tabs').append(b)});
+go('ori');
+</script>
+</body>
+</html>
