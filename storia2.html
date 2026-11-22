@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Storia – Longobardi e Carlo Magno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f1e4;--card:#fffdf8;--ink:#2a1f1a;--muted:#6e5d52;--line:#e2d6c2;
+  --acc:#6b2d5c;--acc-ink:#ffffff;--gold:#e08a1e;--hl:#fde68a;--hl-ink:#2a1f1a;
+  --ok:#2f7a4a;--ok-bg:#e2f2e6;--bad:#b23a2a;--bad-bg:#fbe4de;--chip:#f1e8d8;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#1a1512;--card:#241d18;--ink:#f1e8dc;--muted:#b6a593;--line:#3a3028;
+    --acc:#d48bc4;--acc-ink:#1a1512;--gold:#f0a540;--hl:#7a6420;--hl-ink:#fff6d6;
+    --ok:#74d39a;--ok-bg:#183424;--bad:#ff907a;--bad-bg:#3d1f18;--chip:#2e261f;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1a1512;--card:#241d18;--ink:#f1e8dc;--muted:#b6a593;--line:#3a3028;
+  --acc:#d48bc4;--acc-ink:#1a1512;--gold:#f0a540;--hl:#7a6420;--hl-ink:#fff6d6;
+  --ok:#74d39a;--ok-bg:#183424;--bad:#ff907a;--bad-bg:#3d1f18;--chip:#2e261f;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:3px solid var(--acc)}
+.top{max-width:720px;margin:auto;padding:14px 16px 2px;display:flex;align-items:baseline;gap:10px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:1.5rem;margin:0;color:var(--acc)}
+.top small{color:var(--muted)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 16px 12px;max-width:720px;margin:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font:700 .9rem "Atkinson Hyperlegible",system-ui,sans-serif;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 13px;cursor:pointer}
+.tab.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+main{max-width:720px;margin:auto;padding:16px 14px 48px}
+.intro{color:var(--muted);margin:0 0 14px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px;position:relative}
+.qn{display:inline-block;font:700 .78rem "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--acc-ink);background:var(--gold);border-radius:6px;padding:1px 8px;letter-spacing:.02em}
+.q{font-weight:700;margin:8px 0 12px;white-space:pre-line}
+.opts{display:grid;gap:8px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.opt{text-align:left;padding:11px 13px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.opt:disabled{cursor:default}
+.ok{background:var(--ok-bg)!important;border-color:var(--ok)!important}
+.bad{background:var(--bad-bg)!important;border-color:var(--bad)!important}
+.btn{padding:10px 16px;border-radius:12px;border:none;background:var(--acc);color:var(--acc-ink);font-weight:700}
+.btn.soft{background:var(--chip);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fb:empty{display:none}
+.fb{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:.95rem}
+.fb.okm{background:var(--ok-bg);color:var(--ok)}
+.fb.badm{background:var(--bad-bg);color:var(--bad)}
+.fill{line-height:2.5}
+.fill input{font:inherit;width:7.5em;padding:2px 8px;border:none;border-bottom:3px solid var(--ink);border-radius:4px;background:var(--hl);color:var(--hl-ink)}
+.fix{color:var(--ok);font-weight:700;font-size:.9rem;margin:0 4px;white-space:nowrap}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding-top:10px;border-top:2px dashed var(--line)}
+.chip{padding:5px 11px;border-radius:999px;background:var(--chip);border:1px solid var(--line);color:var(--ink);font-size:.92rem}
+.mrow{display:grid;gap:6px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.mrow:last-of-type{border-bottom:none}
+.mrow b{color:var(--acc)}
+select{font:inherit;width:100%;padding:8px;border-radius:10px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+textarea{width:100%;box-sizing:border-box;min-height:100px;font:inherit;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+.model{margin-top:12px;padding:12px;border-left:5px solid var(--gold);background:var(--chip);border-radius:8px}
+.seq{display:flex;flex-direction:column;gap:6px;margin:4px 0 12px}
+.seq div{padding:8px 11px;border-radius:10px;background:var(--chip)}
+.hint{color:var(--muted);font-size:.92rem}
+.scorebar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:0 0 14px}
+.scorebar .row{margin:0}
+.flash{min-height:210px;display:grid;place-items:center;text-align:center;font:700 1.6rem Fraunces,Georgia,serif;cursor:pointer;user-select:none}
+.flash small{display:block;font:400 1rem "Atkinson Hyperlegible",system-ui,sans-serif;color:var(--muted);margin-top:10px}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Storia 📜</h1><small>Longobardi e Carlo Magno</small></div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main id="main"></main>
+<script>
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const row=(...b)=>{const r=el('div','row');r.append(...b);return r};
+const PRAISE=['Giusto! 🎉','Bravissima! 👏','Esatto! ⭐','Perfetto! 💪'];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* helper per scrivere le domande */
+const mc=(q,giusta,sbagliate,ex)=>({t:'mc',q,opts:[giusta,...sbagliate],a:0,ex});
+const tf=(q,a,ex)=>({t:'tf',q,a,ex});
+const fi=(q,a,ex,bank)=>({t:'fill',q,a,ex,bank});
+const op=(q,model,keys)=>({t:'open',q,model,keys});
+const ma=(q,pairs)=>({t:'match',q,pairs});
+const or=(q,a,ex)=>({t:'order',q,a,ex});
+const egg=(q,giusta,sbagliate,si,no)=>({t:'mc',q,opts:[giusta,...sbagliate],a:0,egg:true,si,no});
+
+/* ---------- CONTENUTI ---------- */
+const SECTIONS=[
+{id:'lon',tab:'🛡️ Longobardi',intro:'Il dominio dei Longobardi in Italia (pagine 4-7).',items:[
+ fi('La caduta dell’Impero romano d’Occidente, nel ___, segna la fine dell’Età antica e l’inizio del ___.',[['476'],['Medioevo']]),
+ mc('Che cosa portarono le invasioni barbariche nei primi secoli del Medioevo?','Distruzione e instabilità politica: commerci rallentati, città vuote, campagne meno produttive',['Pace e ricchezza','Nuove città e grandi commerci','La nascita di uno Stato forte']),
+ tf('I Regni romano-barbarici si dimostrarono quasi sempre forti e stabili.',false,'Nella maggior parte dei casi si dimostrarono fragili.'),
+ mc('Prima dei Longobardi, quali dominazioni conobbe l’Italia nel giro di un secolo?','Quella degli Ostrogoti e la riconquista dei Bizantini',['Quella degli Unni e dei Vandali','Quella dei Franchi','Quella degli Arabi']),
+ fi('Nel ___ l’Italia subì l’invasione dei Longobardi.',[['568']]),
+ mc('Quante persone arrivarono con la migrazione dei Longobardi?','150 000 persone, con 45 000 guerrieri',['45 000 persone in tutto','1 milione di persone','15 000 guerrieri']),
+ fi('I Longobardi erano guidati da un re di nome ___.',[['Alboino']]),
+ mc('Da dove i Longobardi varcarono le Alpi?','Da Cividale del Friuli',['Da Aosta','Da Bolzano','Da Trieste']),
+ tf('I Bizantini opposero una resistenza fortissima ai Longobardi.',false,'La resistenza fu debole e svogliata: i Longobardi dilagarono quasi senza combattere.'),
+ ma('Longobàrdia o Romània?',[['Regno d’Italia con capitale Pavia','Longobàrdia'],['Ducati comandati da un duca','Longobàrdia'],['Territorio dei Bizantini','Romània'],['Governata dall’esarca di Ravenna','Romània'],['Da qui viene il nome Lombardia','Longobàrdia'],['Da qui viene il nome Romagna','Romània']]),
+ fi('La capitale del Regno d’Italia dei Longobardi era ___.',[['Pavia']]),
+ mc('Che cos’era un ducato?','Un territorio indipendente dal Regno, comandato da un duca',['Una città bizantina','Una moneta longobarda','Una legge del re']),
+ mc('Da quale parola latina viene “duca”?','dux, che significa “capo”, “comandante”',['dies, “giorno”','senior, “più anziano”','comes, “compagno”']),
+ mc('Chi era l’esarca?','Il rappresentante dell’imperatore d’Oriente in Italia, che risiedeva a Ravenna',['Il re dei Longobardi','Il papa','Un duca longobardo']),
+ fi('Alcuni gruppi longobardi scesero a sud e fondarono il Ducato di ___ e il Ducato di ___.',[['Spoleto'],['Benevento']]),
+ mc('Fino a quando durò la rottura dell’unità territoriale dell’Italia iniziata con i Longobardi?','Fino al 1861: milletrecento anni',['Fino al 774','Fino all’anno 1000','Fino al 1492']),
+ mc('Guardando la carta: dove erano soprattutto i Longobardi?','Nel Nord e nel Centro-Sud interno (Ducati di Spoleto e di Benevento)',['Solo sulle isole','Solo sulle coste','In Sicilia e Sardegna']),
+ mc('Guardando la carta: quale di queste zone era dei Bizantini?','Sicilia, Sardegna, Ravenna, Roma e le coste del Sud',['Pavia e Milano','Il Ducato di Spoleto','La Tuscia']),
+ ma('Città longobarda o bizantina? (guarda la carta)',[['Pavia','Longobarda'],['Milano','Longobarda'],['Benevento','Longobarda'],['Ravenna','Bizantina'],['Roma','Bizantina'],['Napoli','Bizantina']]),
+ tf('I Longobardi avevano avuto molti contatti con il mondo romano.',false,'Ne avevano avuti pochi, ed erano famosi per la loro ferocia.'),
+ mc('Qual era la religione dei Longobardi quando arrivarono in Italia?','Si erano convertiti all’arianesimo, ma erano ancora molto attaccati alla religione pagana',['Erano cattolici','Erano musulmani','Erano ebrei']),
+ mc('Che cos’è l’arianesimo?','Un’antica dottrina cristiana che negava la piena divinità di Gesù, condannata nel Concilio di Nicea del 325',['La religione pagana dei Longobardi','Il diritto dei Franchi','Una legge di Ròtari']),
+ mc('Che cosa fecero i Longobardi dopo la morte del loro re?','Non scelsero un successore e si divisero in tanti piccoli ducati',['Elessero subito Teodolinda','Tornarono in Ungheria','Chiesero aiuto ai Bizantini']),
+ tf('I duchi longobardi governarono molto bene e tennero a bada i loro guerrieri.',false,'Si dimostrarono incapaci di governare e non riuscirono a fermare razzie e saccheggi.'),
+ mc('Che cosa capirono alla fine i capi longobardi?','Che era ora di trasformare un’occupazione militare in uno Stato',['Che dovevano lasciare l’Italia','Che dovevano allearsi con gli Unni','Che dovevano distruggere la Chiesa']),
+ mc('Perché i Longobardi cercarono di avvicinarsi alla Chiesa?','Era l’ultimo rifugio dei dotti che ricordavano le leggi di Roma',['Perché la Chiesa aveva un grande esercito','Perché il papa era longobardo','Perché volevano conquistare Roma']),
+ egg('Se i Longobardi venissero a cena da noi, chi cucinerebbe meglio di tutti?','Il papà di Zoe',['Il cuoco di re Alboino','Teodolinda in persona'],'Ovvio! Perfino i Longobardi si taglierebbero la barba per un suo piatto. 👨‍🍳🧔','Impossibile: al papà di Zoe neanche i Longobardi resistono. 😏👨‍🍳'),
+ mc('Perché i Longobardi si chiamavano così?','Per le loro lunghe barbe',['Perché venivano dalla Lombardia','Per le loro lunghe lance','Perché erano molto alti']),
+ fi('Per ottenere il sostegno della Chiesa, i Longobardi abbandonarono l’___ e abbracciarono il ___.',[['arianesimo'],['cattolicesimo']]),
+ mc('Chi era Teodolinda?','Una grande regina cattolica, moglie di un re longobardo ariano',['La moglie di Carlo Magno','Una regina bizantina','La figlia di Alboino']),
+ mc('Che cosa riuscì a fare Teodolinda?','Convertire al cattolicesimo il marito e la corte longobarda',['Conquistare Roma','Scrivere l’Editto','Sconfiggere i Bizantini']),
+ mc('Dove si trovano gli affreschi con Teodolinda e le sue spoglie?','Nel Duomo di Monza, da lei fondato',['A Pavia','A Ravenna','A Roma']),
+ tf('Dopo la conversione, i Longobardi costruirono nuove chiese al posto di quelle distrutte.',true,'Iniziò così la feconda stagione dell’architettura longobarda.'),
+ fi('Nel ___ re ___ fece mettere per iscritto le leggi longobarde per la prima volta.',[['643'],['Rotari','Ròtari']]),
+ mc('In che lingua era scritto l’Editto di Ròtari?','In latino',['In longobardo','In greco','In italiano']),
+ mc('A che cosa miravano soprattutto le prime leggi scritte?','A rafforzare l’autorità dei sovrani sui sudditi, duchi compresi',['A dare più potere ai duchi','A favorire i Bizantini','A vietare il cattolicesimo']),
+ mc('Che cosa sono le “regalie”?','I “diritti del re”, cioè le norme moderne dell’Editto',['I regali del re ai vassalli','Le tasse sulla terra','I gioielli della regina']),
+ mc('Che cos’era la faida?','Il diritto di una famiglia offesa di vendicarsi uccidendo un uomo della famiglia del colpevole, e così via',['Un risarcimento in denaro','Un duello davanti a Dio','Una festa longobarda']),
+ mc('Perché Ròtari voleva ridurre la faida?','Portava all’estinzione di intere famiglie e toglieva ai Longobardi i guerrieri migliori',['Perché era troppo costosa','Perché la vietavano i Bizantini','Perché era una legge romana']),
+ mc('Sotto quale re la rinascita longobarda raggiunse il suo apice (712-744)?','Liutprando',['Alboino','Ròtari','Desiderio']),
+ op('Perché Alboino, Teodolinda e Ròtari furono importanti?','Alboino guidò i Longobardi oltre le Alpi e li portò a invadere l’Italia nel 568. Teodolinda, regina cattolica, convertì al cattolicesimo il marito e la corte longobarda. Ròtari nel 643 fece mettere per iscritto per la prima volta le leggi longobarde, con l’Editto di Ròtari.',['Alboino: invasione 568','Teodolinda: conversione al cattolicesimo','Ròtari: leggi scritte 643']),
+ op('Come cambiò l’Italia con l’arrivo dei Longobardi?','L’Italia, unita fin dall’epoca romana, si divise in due: la Longobàrdia (Regno d’Italia con capitale Pavia e i Ducati) e la Romània, rimasta ai Bizantini e governata dall’esarca di Ravenna. Iniziò una rottura dell’unità territoriale che durò fino al 1861.',['divisa in due','Longobàrdia e Romània','Pavia e Ravenna','fino al 1861'])
+]},
+{id:'edi',tab:'📜 Editto di Ròtari',intro:'La fonte: l’Editto di Ròtari (pagina 7).',items:[
+ ma('Completa la scheda della fonte.',[['Tipo di documento','Raccolta di norme'],['Data','643'],['Autore','Re Ròtari'],['Titolo','Editto di Ròtari']]),
+ mc('Che cosa contiene l’Editto di Ròtari?','Sia “norme tradizionali” della storia longobarda, sia “norme moderne”',['Solo norme tradizionali','Solo leggi romane','Le regole dei monasteri']),
+ ma('Abbina ogni norma al suo tipo.',[['Contro la disobbedienza dei guerrieri','Norma moderna'],['Contro la faida','Norma moderna'],['L’ordalìa resta in vigore','Norma tradizionale']]),
+ mc('Secondo la prima norma, chi non può essere incriminato?','Chi ha ucciso un uomo d’accordo con il re o per ordine del re',['Chi ha rubato un cavallo','Chi ha strappato un occhio','Chi ha pagato il guidrigildo']),
+ mc('Quale concetto moderno introduce la prima norma?','Solo lo Stato, con il suo apparato, può imporre con la forza la propria volontà',['Tutti sono uguali davanti alla legge','Il re deve obbedire ai duchi','Ognuno può farsi giustizia da solo']),
+ mc('Che cos’è il guidrigildo?','Un risarcimento in denaro per un’offesa',['Un duello','Una vendetta','Una tassa del re']),
+ tf('Il valore del risarcimento era uguale per tutti.',false,'Dipendeva dal rango della persona, cioè dal suo valore sociale.'),
+ mc('Se qualcuno strappa un occhio a un altro, quanto deve pagare?','La metà del valore della persona, calcolato secondo il suo rango',['Il doppio del valore della persona','Niente','Un occhio']),
+ mc('Un risarcimento che dipende dal rango sarebbe accettabile oggi?','No, perché oggi la legge è uguale per tutti',['Sì, è giusto ancora oggi','Sì, ma solo per i re','Non esistono più leggi']),
+ mc('Che cos’è l’ordalìa?','Il “giudizio di Dio”: una prova (per esempio un duello) per decidere chi ha ragione',['Un risarcimento in denaro','Una legge scritta','La vendetta della famiglia']),
+ egg('A casa, quale “guidrigildo” deve pagare chi lascia la camera in disordine?','Riordinarla subito, senza discutere',['Il tesoro degli Àvari','Niente: si apre una faida!'],'Sentenza giusta: l’Editto di papà è legge! 📜🧹','Ricorso respinto: niente faide, si riordina! 📜🧹'),
+ mc('Perché Ròtari non vietò l’ordalìa, anche se ne dubitava?','Per la consuetudine (tradizione) della stirpe dei Longobardi',['Perché lo voleva il papa','Perché era una legge romana','Perché funzionava sempre']),
+ mc('Che cosa mostra l’immagine dell’Editto?','Ròtari che detta le leggi, uno scrivano che le trascrive, un funzionario e due guerrieri',['Ròtari in battaglia','Il battesimo di Ròtari','Ròtari incoronato dal papa']),
+ op('Spiega le tre norme dell’Editto di Ròtari che hai studiato.','1) Norma moderna contro la disobbedienza dei guerrieri: il re ha il diritto di uccidere chi è un pericolo per lo Stato, e chi uccide per ordine del re non è incriminabile. 2) Norma moderna contro la faida: un’offesa si ripara con il guidrigildo, un risarcimento in denaro che dipende dal rango della persona. 3) Norma tradizionale: l’ordalìa, il giudizio di Dio, resta in vigore per consuetudine.',['potere del re / dello Stato','guidrigildo contro la faida','rango della persona','ordalìa resta'])
+]},
+{id:'fra',tab:'⚔️ Franchi e Pipino',intro:'Come nacque l’Impero carolingio: Franchi, Pipino e Carlo Magno re (pagine 8-9).',items:[
+ mc('Perché la Chiesa cercò l’alleanza con i Franchi?','Temeva ancora i Longobardi, che minacciavano di conquistare Roma',['Voleva conquistare la Francia','I Franchi erano ariani','I Bizantini glielo avevano ordinato']),
+ mc('Che cosa significa “Franchi”?','Nella loro lingua frank significava “libero”',['“Guerrieri”','“Barbe lunghe”','“Uomini del Nord”']),
+ mc('“Parlare francamente” significa…','parlare liberamente',['parlare francese','parlare a voce alta','parlare di guerra']),
+ mc('Dove si erano stanziati i Franchi tra il IV e il V secolo?','Nell’odierna Francia settentrionale e nei Paesi Bassi',['In Italia','In Spagna','In Ungheria']),
+ fi('Nel ___ re ___ della dinastia dei Merovingi si convertì alla religione cattolica.',[['496'],['Clodoveo']]),
+ mc('Perché la conversione al cattolicesimo diede forza al Regno franco?','Favorì l’integrazione con i Romani e assicurò l’appoggio della Chiesa',['Diede ai Franchi un esercito più grande','Fece arrivare oro da Bisanzio','Fermò gli Unni']),
+ fi('I Franchi furono il primo popolo germanico convertito al ___.',[['cattolicesimo']]),
+ mc('Che cosa avevano copiato i Franchi dagli Unni?','L’uso della staffa, per combattere senza scendere da cavallo',['Il fuoco greco','L’arco','La scrittura']),
+ fi('Nel ___ a ___ i Franchi fermarono l’avanzata degli Arabi in Europa.',[['732'],['Poitiers']]),
+ mc('Chi vinse a Poitiers?','Carlo Martello',['Carlo Magno','Pipino il Breve','Clodoveo']),
+ mc('Che cos’era il “maestro di palazzo”?','Il capo dell’esercito dei Franchi',['Il cuoco del re','L’architetto della reggia','Il maestro dei figli del re']),
+ mc('Perché Pipino era detto “il Breve”?','Per la sua bassa statura',['Perché regnò poco','Perché parlava poco','Perché era il più giovane']),
+ mc('Che cosa fece Pipino nel 751?','Imprigionò il re legittimo, dichiarò decaduti i Merovingi e si fece acclamare re',['Fu incoronato imperatore','Sconfisse gli Arabi','Si convertì al cattolicesimo']),
+ mc('Perché la nuova dinastia si chiama “carolingia”?','In ricordo di Carlo Martello',['In ricordo di Carlo Magno','Dalla città di Carolina','Dal nome del papa']),
+ mc('Che cos’è l’usurpazione?','Togliere il potere al re legittimo con un atto di violenza',['Ricevere il potere dal papa','Ereditare il trono dal padre','Rinunciare al trono']),
+ fi('Per rendere legittimo il suo potere, Pipino si fece riconoscere dal papa con la cerimonia dell’___ (754).',[['unzione']]),
+ mc('Che cosa vuol dire che Pipino divenne un “re-sacerdote”?','Il suo potere derivava direttamente da Dio',['Era anche un prete','Diceva messa','Era stato eletto dai vescovi']),
+ mc('Quale papa unse Pipino?','Stefano II',['Leone III','Gregorio Magno','Leone I']),
+ mc('Che cosa chiese il papa in cambio dell’unzione?','Un intervento armato dei Franchi contro i Longobardi',['Molto oro','La conversione dei Franchi','Di diventare imperatore']),
+ mc('Perché il papa diventò un “papa-re”?','Pipino gli donò territori strappati ai Longobardi (Patrimonio di San Pietro) su cui governava',['Fu incoronato re dai Franchi','Sposò una regina','Conquistò Pavia']),
+ mc('Che cosa significa “Carlo Magno”?','Carlo “il Grande”',['Carlo “il Breve”','Carlo “il Martello”','Carlo “il Santo”']),
+ mc('Chi era Desiderio?','Il re longobardo che assediò Roma',['Il papa che incoronò Carlo','Il padre di Carlo Magno','Un vassallo franco']),
+ fi('Carlo Magno conquistò la capitale longobarda ___ nel ___, dopo un anno di assedio.',[['Pavia'],['774']]),
+ mc('Che cosa segnò la conquista di Pavia nel 774?','La fine del Regno longobardo d’Italia',['L’inizio dell’Impero bizantino','La fine dei Franchi','La nascita del Patrimonio di San Pietro']),
+ ma('Nella miniatura del battesimo di Clodoveo, che cosa rappresenta…',[['La colomba','Lo Spirito Santo, che porta l’olio santo'],['L’uomo nel fonte','Re Clodoveo'],['Il vescovo','Il vescovo di Reims che lo battezza'],['L’ampolla','Usata per incoronare i re di Francia fino al 1825']]),
+ op('Spiega che cosa significano “maestro di palazzo”, “usurpazione”, “re-sacerdote” e “papa-re”.','Il maestro di palazzo era il capo dell’esercito dei Franchi. L’usurpazione è togliere il potere al re legittimo con la violenza, come fece Pipino. Il re-sacerdote è un re unto dal papa, il cui potere deriva direttamente da Dio. Il papa-re è il papa che governa anche dei territori, come il Patrimonio di San Pietro.',['capo dell’esercito','togliere il potere con la violenza','potere da Dio','papa che governa territori']),
+ op('Perché i papi si allearono con i Franchi?','Perché i Longobardi minacciavano Roma. I Franchi erano il primo popolo germanico cattolico, avevano un esercito potentissimo e avevano fermato gli Arabi a Poitiers nel 732. Il papa unse Pipino re e in cambio i Franchi combatterono i Longobardi.',['paura dei Longobardi','Franchi cattolici','esercito potente, Poitiers','unzione in cambio di aiuto'])
+]},
+{id:'car',tab:'👑 Carlo Magno imperatore',intro:'Le guerre di Carlo e l’incoronazione dell’800 (pagine 10-11).',items:[
+ mc('Quale titolo ricevette Carlo dal papa dopo la vittoria sui Longobardi?','Protettore della cristianità d’Occidente',['Re dei Romani','Imperatore d’Oriente','Duca di Spoleto']),
+ ma('Abbina ogni popolo nemico di Carlo Magno.',[['Arabi','Musulmani, a ovest, in Spagna'],['Sassoni','Pagani, a nord, nelle foreste della Germania'],['Àvari','Pagani, nomadi affini agli Unni, nell’Europa dell’Est']]),
+ mc('Che cosa riuscì a togliere Carlo agli Arabi?','Una piccola zona lungo i Pirenei, chiamata Marca di Spagna',['Tutta la Spagna','La Sicilia','Gerusalemme']),
+ mc('Quanto durò la guerra contro i Sassoni?','Trent’anni',['Tre anni','Un anno','Cento anni']),
+ mc('Come finì la guerra contro i Sassoni?','Con la deportazione di massa dei 10 000 superstiti e la loro conversione forzata',['Con un trattato di pace','Con la vittoria dei Sassoni','Con un matrimonio']),
+ mc('Che cosa successe agli Àvari?','Furono sterminati e Carlo prese il loro favoloso tesoro',['Si allearono con Carlo','Conquistarono Roma','Si convertirono pacificamente']),
+ fi('Durante la messa della notte di Natale dell’anno ___, papa ___ incoronò Carlo Magno imperatore.',[['800'],['Leone III']],'Attenzione: Leone TERZO (III), non Leone II.'),
+ mc('Che cosa gridarono il clero e la folla?','«A Carlo, augusto, coronato da Dio, grande e pacifico imperatore dei Romani, vita e vittoria!»',['«Viva il re dei Franchi!»','«Viva il papa!»','«Gloria ai Longobardi!»']),
+ egg('Se Carlo Magno vivesse oggi, per quale squadra tiferebbe?','Inter',['Juventus','Victor Rho'],'Un vero imperatore sceglie il nerazzurro: «Vita e vittoria!» 🖤💙👑','Usurpazione! Così rischi la scomunica (e la bocciatura). 😱'),
+ mc('Con l’incoronazione, che cosa dichiarava il papa?','Che l’impero cristiano di Carlo aveva il prestigio di quello romano',['Che Carlo era il nuovo papa','Che l’Impero d’Oriente era finito','Che Carlo doveva obbedire ai Longobardi']),
+ ma('Perché “Sacro romano impero”?',[['Sacro','Perché cristiano'],['Romano','Perché erede di quello antico']]),
+ fi('Gli storici chiamano l’impero di Carlo Impero ___.',[['carolingio']]),
+ mc('Guardando la carta: quali territori entrano nel Regno franco con Carlo Magno?','Sassonia, Baviera, Carinzia, Regno dei Longobardi e Marca di Spagna',['Inghilterra e Irlanda','Sicilia e Sardegna','Tutta la Spagna']),
+ mc('Quali sono le date dei confini dell’impero sotto Carlo Magno (carta)?','771-814',['476-568','732-800','800-1000']),
+ or('Metti in ordine cronologico (esercizio “Ora rispondo”).',['Il re Clodoveo riceve il battesimo','Carlo Martello sconfigge gli Arabi a Poitiers','Pipino il Breve usurpa il trono e dà inizio alla dinastia carolingia','Stefano II unge Pipino creando il re-sacerdote','Pipino fa una donazione a Stefano II, che diviene papa-re','Carlo Magno sconfigge i Longobardi in Italia','Carlo Magno lancia campagne contro Sassoni, Arabi e Àvari','Carlo Magno viene nominato imperatore'],'Le date: 496, 732, 751, 754, donazione, 774, guerre, 800.'),
+ fi('I Franchi vivono nella ___ (la Francia), hanno un esercito potente e sono ___. Per questo i papi chiedono loro aiuto contro i ___.',[['Gallia'],['cattolici'],['Longobardi']],'Nel libro c’è scritto “Gallia romana”: la Francia di oggi si chiamava Gallia.',['Gallia','cattolici','Longobardi','Sassoni','ariani']),
+ fi('Carlo detto ___ diviene re dei Franchi dopo il regno di ___ il Breve.',[['Magno'],['Pipino']]),
+ fi('Carlo Magno, dopo aver sconfitto il re dei Longobardi ___, si scontra con i popoli non cristiani: Sassoni, Àvari e ___.',[['Desiderio'],['Arabi']]),
+ op('Racconta l’incoronazione di Carlo Magno.','Grazie alle sue vittorie Carlo Magno divenne sovrano del regno più vasto nato in Europa dopo l’Impero romano e protettore della Chiesa. Nella notte di Natale dell’800 papa Leone III gli pose sul capo una corona e lo nominò imperatore. Così il papa dichiarava che il suo impero cristiano aveva il prestigio di quello romano: nacque il “Sacro romano impero”.',['Natale 800','papa Leone III','prestigio dell’Impero romano','Sacro romano impero']),
+ op('Contro quali popoli combatté Carlo Magno e come finirono queste guerre?','Contro gli Arabi musulmani in Spagna, a cui tolse solo la Marca di Spagna; contro i Sassoni pagani, in una guerra di trent’anni finita con deportazione e conversione forzata; contro gli Àvari pagani, che furono sterminati.',['Arabi: Marca di Spagna','Sassoni: 30 anni, conversione forzata','Àvari: sterminati'])
+]},
+{id:'fed',tab:'🤝 Vassalli e feudi',intro:'Le caratteristiche dell’Impero di Carlo Magno (pagine 12-14).',items:[
+ ma('Impero romano o Impero carolingio?',[['Aveva la struttura di uno Stato','Impero romano'],['Leggi valide ovunque e tribunali','Impero romano'],['Funzionari stipendiati e tasse regolari','Impero romano'],['Non fu mai uno Stato centralizzato','Impero carolingio'],['Prevaleva la sfera privata (legami personali)','Impero carolingio'],['Era estremamente fragile','Impero carolingio']]),
+ mc('Che cos’è la sfera pubblica?','Leggi, tribunali, funzionari, tasse ed esercito di uno Stato',['I legami personali della famiglia','La casa del re','Le feste in piazza']),
+ mc('Che cos’è la sfera privata?','Una fitta rete di legami personali che facevano capo alla famiglia',['Il sistema delle tasse','L’esercito dello Stato','La legge scritta']),
+ mc('Quali erano i “potentissimi vicini” dell’Impero carolingio?','L’Impero bizantino e l’Impero islamico',['L’Impero romano e i Longobardi','I Sassoni e gli Àvari','I Celti e i Britanni']),
+ mc('Che cos’era la famiglia estesa dei Franchi?','Oltre ai parenti, comprendeva amici intimi, servi e schiavi',['Solo genitori e figli','Solo i guerrieri','Solo i nobili']),
+ tf('Non avere una famiglia significava non avere possibilità di sopravvivere.',true,'In un mondo senza forti istituzioni pubbliche, la famiglia era tutto.'),
+ mc('Chi era il dominus?','Il capofamiglia, chiamato anche “signore”',['Il figlio più piccolo','Il re dei Longobardi','Un servo']),
+ mc('Da dove viene la parola “signore”?','Dal latino senior, “più anziano”',['Dal latino dominus, “casa”','Dal franco frank','Dal latino dux']),
+ mc('Quali poteri e doveri aveva il dominus?','Potere illimitato su tutti, ma il dovere di proteggerli e garantire loro sostentamento',['Nessun potere','Solo il dovere di pagare le tasse','Solo il potere di sposarsi']),
+ mc('Che cosa significa la parola celtica “vassi”, da cui viene “vassalli”?','“Giovani maschi” o “servitori”',['“Signori”','“Cavalieri”','“Contadini”']),
+ mc('Chi erano i Celti?','Gli antichi abitanti dell’Europa, come Galli e Britanni',['Un popolo dell’Africa','Gli abitanti di Bisanzio','I guerrieri di Carlo Magno']),
+ mc('Qual era l’obiettivo della “famiglia combattente”?','La guerra, o meglio la razzia per fare bottino',['Coltivare i campi','Commerciare','Costruire chiese']),
+ mc('Che cosa faceva il signore con il bottino?','Prendeva bestiame, armi, stoffe e oro e li dava in dono ai vassalli',['Lo teneva tutto per sé','Lo dava al papa','Lo bruciava']),
+ mc('Chi erano i vassalli?','Figli maschi del signore o di amici meno potenti, oppure orfani raccolti per strada',['Solo i figli del re','I vescovi','I mercanti']),
+ fi('I vassalli entravano nella famiglia combattente intorno ai ___ anni, con la cerimonia sacra dell’___.',[['15','quindici'],['omaggio']]),
+ mc('Che cosa faceva il futuro vassallo durante l’omaggio?','Metteva le mani giunte in quelle del signore e gli giurava fedeltà',['Baciava la mano del papa','Riceveva una corona','Pagava una tassa']),
+ ma('Nella cerimonia dell’omaggio, che cosa…',[['promette il vassallo','Fedeltà'],['dà in cambio il signore','Protezione'],['simboleggiano le mani giunte','La sottomissione del vassallo al signore']]),
+ tf('Il vassallo poteva rifiutarsi di partecipare alle razzie quando voleva.',false,'Partecipava alle razzie senza mai sottrarsi alla chiamata del dominus.'),
+ mc('Perché ogni anno Carlo Magno si proclamava “signore di tutti i signori”?','Per far diventare suoi vassalli anche i signori delle altre famiglie',['Per farsi pagare le tasse','Per festeggiare il Natale','Per scegliere un nuovo papa']),
+ egg('In casa, chi è il vero “signore di tutti i signori”?','Il papà di Zoe',['Zoe','Lo sgabello in cucina'],'Esatto: ogni sera rinnova l’omaggio… e prepara pure la cena! 👑👨‍🍳','Tentativo di usurpazione rilevato! Il dominus ti osserva. 🧐'),
+ tf('I signori erano obbligati a rinnovare il giuramento a Carlo Magno.',false,'Non era un loro dovere: Carlo li attirava con il suo prestigio e i successi militari.'),
+ mc('Perché Carlo Magno distribuiva terre ai vassalli?','In cambio della loro fedeltà e della partecipazione alle sue guerre',['Perché non le voleva','Per farle coltivare dai monaci','Per venderle']),
+ mc('Come si chiamavano le terre date ai vassalli?','Benefici o feudi',['Ducati','Esarcati','Regalie']),
+ mc('Da dove viene probabilmente la parola “feudo”?','Dal franco fehu, “possesso” o “bestiame”',['Dal latino fides, “fede”','Dal greco','Dal latino dux']),
+ mc('Come veniva simboleggiata la cerimonia dell’investitura?','Con la consegna di una zolla di terra, una manciata di paglia o una bandiera',['Con una corona','Con l’olio santo','Con una spada spezzata']),
+ mc('Su che cosa si basa il regime vassallatico-beneficiario?','Sulla fedeltà dei vassalli, che ricevono benefici e in cambio forniscono guerrieri armati al re',['Sulle tasse pagate dai contadini','Sulle leggi scritte dei Romani','Sull’elezione del re']),
+ mc('Chi erano i paladini?','Vassalli fedelissimi che vivevano nella reggia e seguivano il re ovunque',['I nemici di Carlo','I monaci della Schola Palatina','I mercanti di Aquisgrana'],'Paladini significa “compagni di palazzo”.'),
+ mc('Al tempo di Carlo Magno, il feudo diventava proprietà del vassallo?','No: era dato “in custodia”, come un prestito revocabile, e tornava al sovrano alla morte del vassallo',['Sì, per sempre','Sì, e lo ereditavano i figli','Sì, ma solo se era un paladino']),
+ tf('Nei secoli successivi il possesso dei feudi divenne ereditario.',true,'Poteva essere trasmesso di padre in figlio.'),
+ mc('Che cosa erano le “immunità”, dal IX secolo?','Privilegi: esercitare il potere nel feudo, riscuotere tasse e amministrare la giustizia',['Medicine contro le malattie','Esenzioni dal battesimo','Il divieto di fare la guerra']),
+ mc('Su che cosa si basa il “sistema feudale”?','Su vassallaggio, benefici e immunità',['Su leggi, tribunali e tasse','Su commercio e moneta','Su papa e imperatore']),
+ fi('L’Impero carolingio non è uno Stato ___ come l’Impero romano.',[['centralizzato']]),
+ fi('Il sovrano, in cambio di ___ e della promessa di appoggio in guerra, distribuisce ___ ai vassalli.',[['fedeltà','fedelta'],['terre']]),
+ fi('Queste terre sono dette ___ e tornano nelle mani del sovrano alla morte del vassallo.',[['feudi','benefici']]),
+ fi('Nei secoli successivi il possesso dei feudi diviene ___ e si afferma il sistema ___.',[['ereditario'],['feudale']]),
+ ma('Scrivi il significato (esercizio “Ora rispondo”).',[['Signore','Capofamiglia (dominus) con potere su tutti e dovere di protezione'],['Vassallo','Guerriero che giura fedeltà al signore in cambio di protezione'],['Feudo','Terra data in beneficio al vassallo'],['Regime vassallatico-beneficiario','Sistema basato sulla fedeltà dei vassalli in cambio di benefici']]),
+ op('Qual era la differenza principale tra Impero romano e Impero carolingio?','L’Impero romano era uno Stato: leggi valide ovunque, tribunali, funzionari stipendiati, tasse regolari ed esercito stabile, cioè la sfera pubblica. L’Impero carolingio non fu mai uno Stato centralizzato: prevaleva la sfera privata, una rete di legami personali che faceva capo alla famiglia. Per questo era molto fragile.',['Stato / sfera pubblica','non centralizzato','sfera privata, legami personali','fragile']),
+ op('Descrivi la cerimonia dell’omaggio e quella dell’investitura.','Nell’omaggio, verso i 15 anni, il vassallo metteva le mani giunte in quelle del signore e gli giurava fedeltà; il signore in cambio garantiva protezione. Se il signore gli concedeva anche un terreno, seguiva l’investitura, simboleggiata dalla consegna di una zolla di terra, una manciata di paglia o una bandiera.',['mani giunte','fedeltà e protezione','investitura','zolla di terra, paglia, bandiera']),
+ op('Che cos’è il regime vassallatico-beneficiario?','È il sistema politico-sociale nato sotto Carlo Magno: i vassalli ricevono benefici (feudi) e in cambio sono fedeli e forniscono guerrieri armati al re, pagati con le ricchezze delle terre ricevute. All’epoca il feudo era solo un prestito e tornava al re alla morte del vassallo.',['fedeltà','benefici / feudi','guerrieri al re','prestito che torna al re'])
+]},
+{id:'gov',tab:'🏰 Governo e cultura',intro:'Come Carlo governava l’Impero (pagine 18-20).',items:[
+ mc('Perché il regime vassallatico non garantiva stabilità?','Ogni anello della catena poteva spezzarsi e i vassalli concedevano feudi ai propri guerrieri',['Perché i vassalli erano troppo pochi','Perché il papa lo vietava','Perché non c’erano terre']),
+ mc('Come si chiamavano i “sotto-vassalli”?','Valvassori',['Paladini','Marchesi','Missi dominici']),
+ mc('Qual fu la riforma più importante di Carlo Magno?','Divise l’impero in circa duecento “province”, le contee e le marche',['Abolì i feudi','Creò l’esercito di Stato','Spostò la capitale a Roma']),
+ ma('Contee o marche?',[['Affidate ai conti','Contee'],['Affidate ai marchesi','Marche'],['Lungo i confini, con fortificazioni','Marche'],['Province dell’interno','Contee']]),
+ mc('Da dove viene la parola “conte”?','Dal latino comites, “compagni”',['Dal germanico Marken','Dal latino dux','Dal latino senior']),
+ mc('Da dove viene la parola “marca”?','Dal germanico Marken, “confini”',['Dal latino mare','Dal latino comites','Dal franco frank']),
+ mc('Guardando la carta: dove si trovano le marche?','Lungo i confini',['Al centro dell’impero','Vicino alle città principali','Solo in Italia']),
+ mc('Perché le marche sono lungo i confini?','Per difendere l’impero dai nemici esterni',['Per commerciare','Perché lì vivevano i vescovi','Perché erano le terre più fertili']),
+ mc('Quale grande impero si trovava a est dell’Impero carolingio?','L’Impero bizantino',['L’Emirato di Cordova','Il Regno delle Asturie','I Regni anglosassoni']),
+ mc('Perché conti e marchesi abitavano vicino a città con un vescovo?','Carlo contava sulla collaborazione degli uomini di Chiesa per governare e controllare',['Perché lì c’erano più soldi','Per andare a messa','Perché le città erano più sicure']),
+ mc('Che cosa significa “missi dominici”?','“Inviati del signore”',['“Messa del signore”','“Signori della guerra”','“Servi del re”']),
+ mc('Chi erano i missi dominici?','Un vescovo e un conte, nominati dal re e dipendenti da lui',['Due paladini','Due monaci','Due marchesi indipendenti']),
+ mc('Perché Carlo istituì i missi dominici?','Per evitare che conti e marchesi diventassero autonomi dal re',['Per riscuotere le decime','Per insegnare nelle scuole','Per combattere gli Arabi']),
+ mc('Che cosa facevano i missi dominici?','Raccoglievano le lamentele della popolazione e facevano rispettare le leggi del re',['Guidavano l’esercito','Copiavano libri','Battevano moneta']),
+ mc('Che cos’era la dieta?','L’assemblea annuale, in primavera, di conti, marchesi e vescovi',['Il regime alimentare del re','Una festa di Natale','Un tribunale']),
+ mc('Perché le riunioni si chiamavano “diete”?','Dal latino dies, “giorno”, perché duravano un giorno intero',['Perché si mangiava poco','Perché erano a dieta','Dal nome di un vescovo']),
+ mc('Che cosa sono i capitolari?','Leggi valide in tutto l’Impero, divise in capitula (articoli)',['Le parti di un libro','I capi dell’esercito','Le chiese più importanti']),
+ mc('Di che cosa si occupavano le leggi di Carlo Magno?','Esercito, giustizia, tributi e perfino agricoltura e prezzi delle merci',['Solo di religione','Solo di guerra','Solo di commercio']),
+ mc('Quale nuova moneta introdusse Carlo?','Il denaro d’argento, con il volto o lo stemma del sovrano',['Il fiorino d’oro','L’euro','Il soldo di bronzo']),
+ ma('Nel busto d’oro di Carlo Magno, che cosa simboleggia…',[['La croce sulla corona','La fede cristiana'],['Le aquile sul mantello','Il potere imperiale']]),
+ mc('Perché Carlo Magno promuoveva la religione cristiana?','Era un importante elemento di unificazione dell’impero',['Perché era un monaco','Perché lo chiedevano i Sassoni','Per avere più tasse']),
+ mc('Perché Carlo diffuse l’istruzione?','Per formare funzionari e amministratori e rendere più solido il regno',['Per divertire la corte','Per imparare il greco','Per diventare papa']),
+ fi('Il periodo di fioritura culturale voluto da Carlo si chiama “rinascita ___”.',[['carolingia']]),
+ ma('Chi è? Abbina ogni sapiente.',[['Alcuino di York','Monaco, uno degli uomini più colti dell’epoca'],['Eginardo','Storico, biografo personale di Carlo'],['Paolo Diacono','Benedettino, autore della Storia dei Longobardi']]),
+ mc('Che cos’era la Schola Palatina?','La “scuola di palazzo” presso la reggia',['Una chiesa di Roma','Un esercito','Un monastero in Irlanda']),
+ fi('La capitale di Carlo Magno era ___, oggi Aachen, in Germania.',[['Aquisgrana']]),
+ tf('Carlo Magno sapeva leggere e scrivere benissimo.',false,'Non sapeva né leggere né scrivere: per firmare usava un sigillo personale.'),
+ mc('Che cosa fece Carlo, consapevole dei limiti dell’analfabetismo?','Incitò allo studio i figli dei nobili perché diventassero funzionari',['Chiuse le scuole','Imparò il greco','Vietò i libri']),
+ fi('Le contee sono affidate ai conti, le marche ai ___. I missi dominici controllano che si rispettino le ___.',[['marchesi'],['leggi']]),
+ fi('Carlo Magno convoca riunioni dette ___, durante le quali vengono stabilite leggi chiamate ___.',[['diete'],['capitolari']]),
+ fi('L’imperatore promuove la diffusione dell’___ per la solidità del Regno: ha così inizio la ___ carolingia.',[['istruzione'],['rinascita']]),
+ op('Come era organizzato il governo dell’Impero di Carlo Magno?','Carlo divise l’impero in circa duecento province: le contee, affidate ai conti, e le marche lungo i confini, affidate ai marchesi. I missi dominici, un vescovo e un conte, controllavano che rispettassero le leggi. Ogni anno in primavera convocava la dieta, dove emanava i capitolari, leggi valide in tutto l’impero.',['contee e conti','marche e marchesi','missi dominici','dieta e capitolari']),
+ op('Che cosa fece Carlo Magno per rendere più unito e più istruito il suo impero?','Promosse il cristianesimo come elemento di unificazione, anche con la forza. Diffuse l’istruzione: riunì a corte sapienti come Alcuino di York, Eginardo e Paolo Diacono, che fondarono la Schola Palatina ad Aquisgrana, e incitò allo studio i figli dei nobili. Fu la “rinascita carolingia”.',['cristianesimo','istruzione','Alcuino, Eginardo, Paolo Diacono','Schola Palatina','rinascita carolingia'])
+]},
+{id:'tem',tab:'🗓️ Linea del tempo',intro:'Date ed eventi in ordine. Prima prova a ricordarle, poi controlla.',items:[
+ or('Metti in ordine, dal più antico al più recente.',['Fine dell’Impero romano d’Occidente','Clodoveo si converte al cattolicesimo','I Longobardi invadono l’Italia','Editto di Ròtari','Carlo Martello vince a Poitiers','Pipino si fa acclamare re','Carlo Magno conquista Pavia','Carlo Magno è incoronato imperatore'],'Le date: 476, 496, 568, 643, 732, 751, 774, 800.'),
+ ma('Abbina ogni data all’evento.',[['476','Fine dell’Impero romano d’Occidente'],['568','I Longobardi invadono l’Italia'],['643','Editto di Ròtari'],['712-744','Regno di Liutprando'],['1861','Fine della divisione dell’Italia']]),
+ ma('Abbina ogni data all’evento.',[['496','Clodoveo si converte al cattolicesimo'],['732','Battaglia di Poitiers'],['751','Pipino il Breve diventa re'],['754','Unzione di Pipino'],['774','Conquista di Pavia'],['800','Incoronazione di Carlo Magno']]),
+ mc('In che secolo è l’incoronazione di Carlo Magno (800)?','VIII secolo',['IX secolo','VII secolo','XVIII secolo'],'Gli anni dal 701 all’800 sono l’VIII secolo.'),
+ mc('In che secolo è la battaglia di Poitiers (732)?','VIII secolo',['VII secolo','IX secolo','XVII secolo']),
+ fi('I Longobardi arrivano nel ___; Carlo Magno li sconfigge nel ___.',[['568'],['774']]),
+ fi('Carlo Martello vince a Poitiers nel ___; suo figlio Pipino diventa re nel ___.',[['732'],['751']])
+]}
+];
+
+const CARDS=[
+['476','Fine dell’Impero romano d’Occidente e inizio del Medioevo'],['496','Clodoveo, re dei Franchi, si converte al cattolicesimo'],['568','I Longobardi di Alboino invadono l’Italia'],
+['643','Editto di Ròtari: prime leggi longobarde scritte'],['712-744','Regno di Liutprando, apice della rinascita longobarda'],['732','Carlo Martello ferma gli Arabi a Poitiers'],
+['751','Pipino il Breve usurpa il trono: nasce la dinastia carolingia'],['754','Unzione di Pipino da parte di papa Stefano II'],['774','Carlo Magno conquista Pavia: fine del Regno longobardo'],
+['800','Natale: Leone III incorona Carlo Magno imperatore'],['1861','Fine della divisione dell’Italia iniziata coi Longobardi'],
+['Alboino','Re che guidò i Longobardi in Italia'],['Teodolinda','Regina cattolica che convertì i Longobardi'],['Ròtari','Re che fece scrivere le leggi longobarde (643)'],['Liutprando','Re colto e intelligente (712-744)'],
+['Longobàrdia','Territori dei Longobardi (→ Lombardia)'],['Romània','Territori dei Bizantini (→ Romagna)'],['Esarca','Rappresentante dell’imperatore d’Oriente, a Ravenna'],['Duca','Capo di un ducato (dal latino dux)'],
+['Arianesimo','Dottrina che negava la piena divinità di Gesù'],['Faida','Vendetta tra famiglie'],['Guidrigildo','Risarcimento in denaro, secondo il rango'],['Ordalìa','Giudizio di Dio (es. duello)'],['Regalie','“Diritti del re”'],
+['Franchi','Da frank, “libero”: primo popolo germanico cattolico'],['Staffa','Copiata dagli Unni: si combatte senza scendere da cavallo'],['Maestro di palazzo','Capo dell’esercito dei Franchi'],
+['Usurpazione','Togliere il potere al re legittimo con la violenza'],['Re-sacerdote','Re unto dal papa: il suo potere viene da Dio'],['Papa-re','Papa che governa dei territori'],['Desiderio','Ultimo re dei Longobardi'],
+['Marca di Spagna','Zona lungo i Pirenei tolta da Carlo agli Arabi'],['Sacro romano impero','Sacro perché cristiano, romano perché erede di Roma'],
+['Sfera pubblica','Leggi, tribunali, funzionari, tasse, esercito'],['Sfera privata','Legami personali che fanno capo alla famiglia'],['Dominus','Capofamiglia, “signore” (da senior)'],
+['Vassalli','Da vassi, “giovani maschi” o “servitori”'],['Omaggio','Mani giunte: fedeltà in cambio di protezione'],['Investitura','Consegna di zolla, paglia o bandiera'],['Feudo','Terra data in beneficio (da fehu, “possesso”)'],
+['Paladini','Vassalli fedelissimi, “compagni di palazzo”'],['Immunità','Privilegi: potere, tasse e giustizia nel feudo'],['Valvassori','Sotto-vassalli'],
+['Conti','Governano le contee (da comites, “compagni”)'],['Marchesi','Governano le marche di confine (da Marken)'],['Missi dominici','“Inviati del signore”: un vescovo e un conte'],
+['Dieta','Assemblea annuale (da dies, “giorno”)'],['Capitolari','Leggi divise in capitula (articoli)'],['Schola Palatina','Scuola di palazzo ad Aquisgrana'],['Rinascita carolingia','Fioritura culturale voluta da Carlo Magno']
+].map(([f,b])=>({f,b}));
+
+/* ---------- MOTORE ---------- */
+const TYPE={mc:'Crocetta',tf:'Vero o falso',fill:'Completa',match:'Abbina',order:'Metti in ordine',open:'Domanda aperta'};
+
+function renderItem(it,n,record){
+  const c=el('div','card');
+  c.append(el('span','qn',`${n} · ${TYPE[it.t]}`));
+  const fb=el('div','fb');
+  const q=t=>c.append(el('div','q',t));
+  const done=(ok,msg)=>{fb.className='fb '+(ok?'okm':'badm');fb.innerHTML=(ok?'✅ ':'❌ ')+(msg||(ok?pick(PRAISE):'Non proprio.'));record(ok)};
+
+  if(it.t==='mc'||it.t==='tf'){
+    const opts=it.t==='tf'?['Vero','Falso']:shuffle(it.opts);
+    const ans=it.t==='tf'?(it.a?'Vero':'Falso'):it.opts[it.a];
+    q(it.q);const box=el('div','opts');
+    opts.forEach(o=>{const b=el('button','opt');b.textContent=o;b.onclick=()=>{
+      [...box.children].forEach(x=>{x.disabled=true;if(x.textContent===ans)x.classList.add('ok')});
+      const ok=o===ans;if(!ok)b.classList.add('bad');
+      if(it.egg)return done(ok,ok?it.si:it.no+' La risposta giusta è: <b>'+ans+'</b>.');
+      done(ok,(ok?pick(PRAISE)+' ':'La risposta giusta è: <b>'+ans+'</b>. ')+(it.ex||''));
+    };box.append(b)});
+    c.append(box);
+  }
+
+  if(it.t==='fill'){
+    q('Completa la frase.');
+    const p=el('div','fill');const ins=[];let last=null;
+    const parts=it.q.split('___');
+    parts.forEach((t,i)=>{p.append(document.createTextNode(t));if(i<parts.length-1){const x=document.createElement('input');x.setAttribute('autocapitalize','off');x.autocomplete='off';x.spellcheck=false;x.onfocus=()=>{last=x};ins.push(x);p.append(x)}});
+    c.append(p);
+    if(it.bank){const bk=el('div','bank');shuffle(it.bank).forEach(w=>{const ch=el('button','chip');ch.textContent=w;ch.onclick=()=>{
+      const t=(last&&!last.value&&!last.disabled)?last:ins.find(x=>!x.value&&!x.disabled);
+      if(t){t.value=w;last=ins.find(x=>!x.value)||null}
+    };bk.append(ch)});c.append(bk)}
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{
+      let all=true;
+      ins.forEach((x,i)=>{
+        const v=norm(x.value);const ok=v&&it.a[i].some(s=>norm(s)===v);
+        x.disabled=true;x.classList.add(ok?'ok':'bad');
+        if(!ok){all=false;x.insertAdjacentHTML('afterend',`<span class="fix">→ ${it.a[i][0]}</span>`)}
+      });
+      chk.remove();done(all,all?pick(PRAISE)+(it.ex?' '+it.ex:''):'Guarda le parole in verde. '+(it.ex||''));
+    };
+    c.append(row(chk));
+  }
+
+  if(it.t==='match'){
+    q(it.q);
+    const rights=shuffle([...new Set(it.pairs.map(p=>p[1]))]);
+    const sels=shuffle(it.pairs).map(([l,r])=>{
+      const w=el('div','mrow');w.append(el('b',null,l));
+      const s=document.createElement('select');s.setAttribute('aria-label',l);
+      s.innerHTML='<option value="">scegli…</option>'+rights.map(o=>`<option>${o}</option>`).join('');
+      w.append(s);c.append(w);return {s,r,w}});
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{let all=true;sels.forEach(({s,r,w})=>{const ok=s.value===r;s.disabled=true;s.classList.add(ok?'ok':'bad');if(!ok){all=false;w.append(el('span','fix','→ '+r))}});chk.remove();done(all,all?pick(PRAISE):'Guarda le risposte in verde.')};
+    c.append(row(chk));
+  }
+
+  if(it.t==='order'){
+    q(it.q);const seq=el('div','seq'),pool=el('div','opts'),picked=[];
+    const draw=()=>{seq.innerHTML=picked.length?picked.map((s,i)=>`<div><b>${i+1}.</b> ${s}</div>`).join(''):'<span class="hint">Tocca gli eventi qui sotto nell’ordine giusto.</span>'};
+    shuffle(it.a).forEach(s=>{const b=el('button','opt');b.textContent=s;b.onclick=()=>{picked.push(s);b.style.display='none';draw()};pool.append(b)});
+    const undo=el('button','btn soft','↶ Annulla');undo.onclick=()=>{const s=picked.pop();if(s){[...pool.children].find(b=>b.textContent===s).style.display='';draw()}};
+    const chk=el('button','btn','Controlla');
+    chk.onclick=()=>{
+      if(picked.length<it.a.length){fb.className='fb badm';fb.textContent='Prima metti in ordine tutti gli eventi.';return}
+      const ok=picked.every((s,i)=>s===it.a[i]);
+      seq.innerHTML=picked.map((s,i)=>`<div class="${s===it.a[i]?'ok':'bad'}"><b>${i+1}.</b> ${s}</div>`).join('');
+      undo.remove();chk.remove();
+      done(ok,(ok?pick(PRAISE)+' ':'L’ordine giusto è:<br>'+it.a.map((s,i)=>`${i+1}. ${s}`).join('<br>')+'<br>')+(it.ex||''));
+    };
+    draw();c.append(seq,pool,row(undo,chk));
+  }
+
+  if(it.t==='open'){
+    q(it.q);const ta=document.createElement('textarea');ta.placeholder='Scrivi qui la tua risposta…';c.append(ta);
+    const show=el('button','btn','Mostra la risposta modello');c.append(row(show));
+    show.onclick=()=>{
+      show.parentNode.remove();
+      c.insertBefore(el('div','model','<b>Risposta modello</b><br>'+it.model+(it.keys?'<br><br><b>Parole chiave:</b> '+it.keys.join('; '):'')),fb);
+      const y=el('button','btn','✓ Avevo i concetti chiave'),nn=el('button','btn soft','✗ Non ancora');const r2=row(y,nn);c.insertBefore(r2,fb);
+      y.onclick=()=>{r2.remove();done(true,'Ottimo lavoro!')};
+      nn.onclick=()=>{r2.remove();done(false,'Rileggi la risposta modello e prova a ripeterla a voce alta.')};
+    };
+  }
+  c.append(fb);return c;
+}
+
+function practice(m,intro,items,restart){
+  m.innerHTML='';m.append(el('p','intro',intro));
+  const res={};const bars=[];
+  const mkBar=()=>{
+    const b=el('div','scorebar',`<div class="sc"></div><div class="row"><button class="btn soft rs">↻ Ricomincia</button><button class="btn rt">Rifai gli errori</button></div>`);
+    const upd=()=>{
+      const v=Object.values(res),ok=v.filter(Boolean).length,wrong=v.length-ok,left=items.length-v.length;
+      b.querySelector('.sc').innerHTML=`✅ <b>${ok}</b> &nbsp; ❌ <b>${wrong}</b> &nbsp; ${left?'mancano '+left:(wrong?'Finito!':'Tutto giusto! 🎉')}`;
+      b.querySelector('.rt').disabled=!wrong;
+    };
+    b.querySelector('.rs').onclick=()=>{restart();scrollTo(0,0)};
+    b.querySelector('.rt').onclick=()=>{const w=items.filter(it=>res[it.uid]===false);practice(m,'Riproviamo le domande sbagliate 💪',w,restart);scrollTo(0,0)};
+    bars.push(upd);upd();return b;
+  };
+  m.append(mkBar());
+  items.forEach((it,i)=>m.append(renderItem(it,i+1,ok=>{res[it.uid]=ok;bars.forEach(f=>f())})));
+  m.append(mkBar());
+}
+
+function renderFlash(m){
+  let rev=false,deck=shuffle(CARDS),known=0,flipped=false;
+  m.innerHTML=`<p class="intro">Date e parole chiave. Prova a ricordare, poi tocca la carta per girarla.</p>
+  <div class="row" style="margin:0 0 12px"><button class="btn soft" id="dir"></button><button class="btn soft" id="fr">↻ Mescola</button></div>
+  <div class="card flash" id="fc" role="button" tabindex="0"></div>
+  <div class="row"><button class="btn soft" id="ag">↻ La rivedo dopo</button><button class="btn" id="kn">✓ La so</button></div>
+  <p class="intro" id="fcount" style="margin-top:12px"></p>`;
+  const draw=()=>{
+    $('#dir').textContent=rev?'Davanti: spiegazione':'Davanti: data o parola';
+    if(!deck.length){$('#fc').innerHTML='<div>🎉 Finite!<small>Tocca “Mescola” per ricominciare</small></div>';$('#fcount').textContent='';return}
+    const w=deck[0],front=rev?w.b:w.f,back=rev?w.f:w.b;
+    $('#fc').innerHTML=flipped?`<div>${back}</div>`:`<div>${front}<small>tocca per girare</small></div>`;
+    $('#fcount').textContent=`Carte rimaste: ${deck.length} · già sapute: ${known}`;
+  };
+  const flip=()=>{flipped=!flipped;draw()};
+  $('#fc').onclick=flip;$('#fc').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
+  $('#kn').onclick=()=>{if(!deck.length)return;deck.shift();known++;flipped=false;draw()};
+  $('#ag').onclick=()=>{if(!deck.length)return;deck.push(deck.shift());flipped=false;draw()};
+  $('#dir').onclick=()=>{rev=!rev;flipped=false;draw()};
+  $('#fr').onclick=()=>{deck=shuffle(CARDS);known=0;flipped=false;draw()};
+  draw();
+}
+
+function renderMix(m){
+  const all=SECTIONS.flatMap(s=>s.items.map((it,i)=>({...it,uid:s.id+i}))).filter(it=>it.t!=='open');
+  practice(m,'Simulazione di verifica: 15 domande a caso da tutti i capitoli. 🎯',shuffle(all).slice(0,15),()=>renderMix(m));
+}
+
+const TABS=[...SECTIONS.map(s=>({id:s.id,label:s.tab})),{id:'mix',label:'🎯 Verifica'},{id:'flash',label:'🃏 Carte'}];
+function go(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.id===id));
+  const m=$('#main');
+  if(id==='flash')return renderFlash(m);
+  if(id==='mix')return renderMix(m);
+  const s=SECTIONS.find(x=>x.id===id);
+  practice(m,s.intro,s.items.map((it,i)=>({...it,uid:id+i})),()=>go(id));
+}
+TABS.forEach(t=>{const b=el('button','tab');b.textContent=t.label;b.dataset.id=t.id;b.onclick=()=>{go(t.id);scrollTo(0,0)};$('#tabs').append(b)});
+go('lon');
+</script>
+</body>
+</html>
